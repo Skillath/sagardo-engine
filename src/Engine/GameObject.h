@@ -4,7 +4,7 @@
 #include <flecs.h>
 #include <string>
 
-namespace Engine
+namespace SagardoEngine
 {
     class GameObject
     {
@@ -21,14 +21,13 @@ namespace Engine
             template<typename T>
             void AddComponent(T component) const
             {
-                _entity.set(component);
+                _entity.set<T>(component);
             }
 
             template<typename T>
             void RemoveComponent() const
             {
                 auto entity = _entity.remove<T>();
-                delete entity;
             }
 
             template<typename T>

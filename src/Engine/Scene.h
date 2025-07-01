@@ -1,14 +1,15 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "GameObject.hpp"
 #include <flecs.h>
 #include <vector>
 
-#include "Components.hpp"
+#include "GameObject.h"
+#include "IStartable.h"
+#include "IStopable.h"
 #include "IUpdatable.h"
 
-namespace Engine 
+namespace SagardoEngine 
 {
     class Scene final : IStartable, IUpdatable, IStopable
     {     

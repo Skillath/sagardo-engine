@@ -5,8 +5,8 @@
 #define SCREEN_HEIGHT 720
 
 #include "raylib.h"
-#include "Engine/Scene.hpp"
-#include "Engine/Components.hpp"
+#include "Engine/Scene.h"
+#include "Engine/Components.h"
 
 int main()
 {
@@ -15,26 +15,31 @@ int main()
 
     SetTargetFPS(144);
 
-    Engine::Scene gameContextScene("NewScene");
+    SagardoEngine::Scene gameContextScene("NewScene");
 
-    Engine::CameraComponent cameraComponent =
+    SagardoEngine::CameraComponent cameraComponent =
     {
         45.f,
-        Vector3{0, 0, 10},
+        Vector3{0, 10, 0},
         Vector3{0, 1, 0},
         CAMERA_PERSPECTIVE,
     };
 
-    Engine::ModelLoaderComponent modelLoaderComponent =
-    {
-        "res/models/Steve.obj",
-    };
-
     auto modelGameObject = gameContextScene.NewGameObject("3D Model");
-    modelGameObject->AddComponent(modelLoaderComponent);
+    modelGameObject->AddComponent<SagardoEngine::ModelLoaderComponent>(
+    {
+        "/res/models/Fox.glb",
+    });
 
     auto cameraObject = gameContextScene.NewGameObject("Camera");
     cameraObject->AddComponent(cameraComponent);
+    cameraObject->RemoveComponent<SagardoEngine::PositionComponent>();
+    cameraObject->AddComponent<SagardoEngine::PositionComponent>(
+    {
+        50.f,
+        50.f,
+        50.f,
+    });
 
     gameContextScene.Start();
 
@@ -44,9 +49,9 @@ int main()
 
         BeginDrawing();
         {
-            ClearBackground(BLACK);
+            ClearBackground(RAYWHITE);
 
-            const auto cameraRef = cameraObject->GetComponent<Engine::CameraRefComponent>();
+            const auto cameraRef = cameraObject->GetComponent<SagardoEngine::CameraRefComponent>();
             const auto camera = cameraRef.CameraRef;
 
             BeginMode3D(camera);
@@ -55,6 +60,8 @@ int main()
                 gameContextScene.Render3D();
             }
             EndMode3D();
+
+            DrawFPS(0,0);
         }
         EndDrawing();
     }

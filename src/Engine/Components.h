@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-namespace Engine
+namespace SagardoEngine
 {
     struct PositionComponent
     {
@@ -44,6 +44,12 @@ namespace Engine
     struct ModelComponent
     {
         Model LoadedModel;
+    };
+
+    struct ModelAnimationComponent
+    {
+        int AnimationsCount;
+        ModelAnimation* Animations;
     };
 
     struct CameraComponent

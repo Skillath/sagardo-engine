@@ -1,8 +1,8 @@
-#include "GameObject.hpp"
-#include "Components.hpp"
+#include "GameObject.h"
+#include "Components.h"
 #include <print>
 
-using namespace Engine;
+using namespace SagardoEngine;
 
 GameObject::GameObject(const char* name, flecs::world* world)
 {

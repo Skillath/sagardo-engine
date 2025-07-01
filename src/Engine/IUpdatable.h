@@ -1,7 +1,7 @@
 #ifndef IUPDATABLE_H
 #define IUPDATABLE_H
 
-namespace Engine
+namespace SagardoEngine
 {
     class IUpdatable
     {
@@ -10,24 +10,6 @@ namespace Engine
 
         protected:
             virtual ~IUpdatable() = default;
-    };
-
-    class IStartable
-    {
-        public:
-            virtual void Start() = 0;
-
-        protected:
-            virtual ~IStartable() = default;
-    };
-
-    class IStopable
-    {
-        public:
-            virtual void Stop() = 0;
-
-        protected:
-            virtual ~IStopable() = default;
     };
 }
 

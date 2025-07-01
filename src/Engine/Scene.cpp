@@ -1,17 +1,19 @@
-#include "Scene.hpp"
-#include "GameObject.hpp"
-#include "Components.hpp"
+#include "Scene.h"
+#include "GameObject.h"
+#include "Components.h"
 #include <algorithm>
 #include <iostream>
 #include <raylib.h>
 #include <print>
+#include <string>
 
-using namespace Engine;
+using namespace SagardoEngine;
 
 Scene::Scene(const char *name)
 {
     _name = name;
     std::println("New Scene created {0}!", name);
+
 }
 
 Scene::~Scene()
@@ -25,6 +27,7 @@ Scene::~Scene()
 
     std::println("New Scene deleted {0}!", _name);
     _name = nullptr;
+
 }
 
 void Scene::Start()
@@ -59,16 +62,37 @@ void Scene::Start()
             const flecs::entity entity,
             const ModelLoaderComponent &meshRendererComponent)
         {
-            auto model = LoadModel(meshRendererComponent.Path);
-            entity.set<ModelComponent>(ModelComponent{ model });
-            entity.remove<ModelComponent>();
+            char path[1024];
+            strcpy(path, GetWorkingDirectory());
+            strcat(path, meshRendererComponent.Path);
+
+            auto model = LoadModel(path);
+
+            entity.set<ModelComponent>(
+            {
+                model
+            });
+
+            int animationsCount = 0;
+            auto animations = LoadModelAnimations(path, &animationsCount);
+
+            if (animationsCount > 0)
+            {
+                entity.set<ModelAnimationComponent>(
+                {
+                    animationsCount,
+                    animations,
+                });
+            }
+
+            entity.remove<ModelLoaderComponent>();
         });
 
     if (!_world.progress())
         throw std::runtime_error("Scene initialization failed!");
 }
 
-GameObject *Scene::NewGameObject(const char *name)
+GameObject* Scene::NewGameObject(const char *name)
 {
     const auto gameObject = new GameObject(name, &_world);
     _gameObjects.push_back(gameObject);
@@ -82,6 +106,8 @@ bool Scene::TryRemoveGameObject(const GameObject *gameObject)
         return false;
 
     _gameObjects.erase(foundItem);
+
+    //TODO delete!
 
     return true;
 }
