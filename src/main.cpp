@@ -7,13 +7,17 @@
 #include "raylib.h"
 #include "Engine/Scene.h"
 #include "Engine/Components.h"
+#include "Engine/RenderPipeline.h"
+
+void Setup();
+
+void Destroy();
 
 int main()
 {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Game Engine");
-    InitAudioDevice();
-
-    SetTargetFPS(144);
+    Setup();
+    
+    SagardoEngine::RenderPipeline renderer;
 
     SagardoEngine::Scene gameContextScene("NewScene");
 
@@ -26,10 +30,13 @@ int main()
     };
 
     auto modelGameObject = gameContextScene.NewGameObject("3D Model");
-    modelGameObject->AddComponent<SagardoEngine::ModelLoaderComponent>(
+    modelGameObject->AddComponent<SagardoEngine::FileLoaderComponent>(
     {
         "/res/models/Fox.glb",
     });
+    
+    modelGameObject->AddComponent<SagardoEngine::ModelComponent>({  });
+    modelGameObject->AddComponent<SagardoEngine::ModelAnimationComponent>({});
 
     auto cameraObject = gameContextScene.NewGameObject("Camera");
     cameraObject->AddComponent(cameraComponent);
@@ -46,6 +53,8 @@ int main()
     while (!WindowShouldClose())
     {
         const auto dt = GetFrameTime();
+        
+        renderer.Render();
 
         BeginDrawing();
         {
@@ -57,7 +66,6 @@ int main()
             BeginMode3D(camera);
             {
                 gameContextScene.Update(dt);
-                gameContextScene.Render3D();
             }
             EndMode3D();
 
@@ -68,10 +76,23 @@ int main()
 
     gameContextScene.Stop();
 
-    CloseAudioDevice();
-    CloseWindow();
+    Destroy()
 
     return 0;
+}
+
+void Setup()
+{
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Game Engine");
+    InitAudioDevice();
+
+    SetTargetFPS(144);
+}
+
+void Destroy()
+{
+    CloseAudioDevice();
+    CloseWindow();
 }
 
 #endif

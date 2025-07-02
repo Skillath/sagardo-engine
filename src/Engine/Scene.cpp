@@ -56,11 +56,16 @@ void Scene::Start()
             });
 
     _world
-        .system<const ModelLoaderComponent>("MeshRendererInitialization")
+        .system<
+            ModelComponent,
+            ModelAnimationComponent,
+            const FileLoaderComponent>("MeshRendererInitialization")
         .kind(flecs::OnStart)
         .each([](
             const flecs::entity entity,
-            const ModelLoaderComponent &meshRendererComponent)
+            ModelComponent &modelComponent,
+            ModelAnimationComponent &modelAnimationComponent,
+            const FileLoaderComponent &meshRendererComponent)
         {
             char path[1024];
             strcpy(path, GetWorkingDirectory());
@@ -68,24 +73,15 @@ void Scene::Start()
 
             auto model = LoadModel(path);
 
-            entity.set<ModelComponent>(
-            {
-                model
-            });
-
+            modelComponent.LoadedModel = model;
+            
             int animationsCount = 0;
             auto animations = LoadModelAnimations(path, &animationsCount);
 
-            if (animationsCount > 0)
-            {
-                entity.set<ModelAnimationComponent>(
-                {
-                    animationsCount,
-                    animations,
-                });
-            }
+            modelAnimationComponent.AnimationsCount = animationsCount;
+            modelAnimationComponent.Animations = animations;
 
-            entity.remove<ModelLoaderComponent>();
+            entity.remove<FileLoaderComponent>();
         });
 
     if (!_world.progress())
@@ -106,8 +102,8 @@ bool Scene::TryRemoveGameObject(const GameObject *gameObject)
         return false;
 
     _gameObjects.erase(foundItem);
-
-    //TODO delete!
+    
+    delete *foundItem.base();
 
     return true;
 }
@@ -145,11 +141,6 @@ void Scene::Update(const float dt)
 
     if (!_world.progress(dt))
         throw std::runtime_error("Scene update failed!");
-}
-
-void Scene::Render3D()
-{
-
 }
 
 void Scene::Stop()

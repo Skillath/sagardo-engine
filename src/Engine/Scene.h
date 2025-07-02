@@ -11,7 +11,7 @@
 
 namespace SagardoEngine 
 {
-    class Scene final : IStartable, IUpdatable, IStopable
+    class Scene final : public IStartable, public IUpdatable, public IStopable
     {     
         private:
             const char* _name;
@@ -25,8 +25,7 @@ namespace SagardoEngine
             void Start() override;
             void Stop() override;
             void Update(float dt) override;
-
-            void Render3D();
+        
             GameObject* NewGameObject(const char* name);
             bool TryRemoveGameObject(const GameObject* gameObject);
 

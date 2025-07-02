@@ -32,7 +32,10 @@ add_executable(${PROJECT_NAME}Exe
         src/Engine/Components.h
         src/Engine/IUpdatable.h
         src/Engine/IStartable.h
-        src/Engine/IStopable.h)
+        src/Engine/IStopable.h
+        src/Engine/RenderPipeline.cpp
+        src/Engine/RenderPipeline.h
+)
 
 add_library(${PROJECT_NAME}  
         src/main.cpp
@@ -43,7 +46,11 @@ add_library(${PROJECT_NAME}
         src/Engine/Components.h
         src/Engine/IUpdatable.h
         src/Engine/IStartable.h
-        src/Engine/IStopable.h)
+        src/Engine/IStopable.h
+        src/Engine/RenderPipeline.cpp
+        src/Engine/RenderPipeline.h
+        src/Engine/IRenderPipeline.h
+)
 
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS} flecs::flecs_static) 

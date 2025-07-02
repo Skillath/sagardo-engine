@@ -26,19 +26,9 @@ namespace SagardoEngine
         float Z;
     };
 
-    struct MeshLoaderComponent
-    {
-        const char* Path;
-    };
-
     struct MeshComponent
     {
         Mesh LoadedMesh;
-    };
-
-    struct ModelLoaderComponent
-    {
-        const char* Path;
     };
 
     struct ModelComponent
@@ -63,6 +53,11 @@ namespace SagardoEngine
     struct CameraRefComponent
     {
         Camera CameraRef;
+    };
+
+    struct FileLoaderComponent
+    {
+        const char* Path;
     };
 }
 
