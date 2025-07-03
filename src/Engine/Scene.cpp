@@ -111,11 +111,10 @@ bool Scene::TryRemoveGameObject(const GameObject *gameObject)
 void Scene::Update(const float dt)
 {
     _world
-        .system<const CameraRefComponent>()
-        .each([](const CameraRefComponent &cameraRef)
-        {
-            auto camera = const_cast<Camera*>(&cameraRef.CameraRef);
-            UpdateCamera(camera, cameraRef.CameraRef.projection);
+        .system<CameraRefComponent>()
+        .each([](CameraRefComponent &cameraRef)
+        {            
+            UpdateCamera(&cameraRef.CameraRef, cameraRef.CameraRef.projection);
         });
 
     _world
