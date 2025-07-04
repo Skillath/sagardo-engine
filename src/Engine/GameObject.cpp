@@ -1,18 +1,38 @@
 #include "GameObject.h"
 #include "Components.h"
 #include <print>
+#include <glm/glm.hpp>
 
 using namespace SagardoEngine;
 
-GameObject::GameObject(const char* name, flecs::world* world)
+GameObject::GameObject(
+    const char* name,
+    const Ecs::World& world)
+    : _world(world)
 {
     _name = name;
-    _world = world;
-    _entity = _world->entity(_name);
-    _entity
-        .set<PositionComponent>({0,0,0})
-        .set<ScaleComponent>({1,1,1})
-        .set<RotationEulerComponent>({0, 0, 0});
+    
+    _entity = _world.CreateEntity();
+
+    _entity.AddComponent<PositionComponent>(
+        {
+            .X = 0,
+            .Y = 0,
+            .Z = 0,
+        });
+
+    _entity.AddComponent<ScaleComponent>({
+        .X = 1,
+        .Y = 1,
+        .Z = 1,
+    });
+
+    _entity.AddComponent<RotationEulerComponent>(
+        {
+            .X = 0,
+            .Y = 0,
+            .Z = 0,
+        });
 
     std::println("Entity created {0}!", name);
 }
@@ -20,8 +40,7 @@ GameObject::GameObject(const char* name, flecs::world* world)
 GameObject::~GameObject()
 {
     std::println("Entity Destroyed {0}!", _name);
-
-    _entity.destruct();
+    
+    _entity.Destroy();
     _name = nullptr;
-    _world = nullptr;
 }

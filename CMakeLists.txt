@@ -21,7 +21,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
-find_package(flecs REQUIRED)
+#find_package(entt REQUIRED)
 
 add_executable(${PROJECT_NAME}Exe 
         src/main.cpp
@@ -35,6 +35,12 @@ add_executable(${PROJECT_NAME}Exe
         src/Engine/IStopable.h
         src/Engine/RenderPipeline.cpp
         src/Engine/RenderPipeline.h
+        src/Engine/ECS/World.cpp
+        src/Engine/ECS/World.h
+        src/Engine/ECS/System.cpp
+        src/Engine/ECS/System.h
+        src/Engine/ECS/Entity.h
+        src/Engine/ECS/Entity.cpp
 )
 
 add_library(${PROJECT_NAME}  
@@ -50,14 +56,20 @@ add_library(${PROJECT_NAME}
         src/Engine/RenderPipeline.cpp
         src/Engine/RenderPipeline.h
         src/Engine/IRenderPipeline.h
+        src/Engine/ECS/World.cpp
+        src/Engine/ECS/World.h
+        src/Engine/ECS/System.cpp
+        src/Engine/ECS/System.h
+        src/Engine/ECS/Entity.h
+        src/Engine/ECS/Entity.cpp
 )
 
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS} flecs::flecs_static) 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${raylib_LIBRARIES} flecs::flecs_static)
+target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS} entt:entt_static) 
+target_link_libraries(${PROJECT_NAME} PRIVATE ${raylib_LIBRARIES} entt:entt_static)
 
-target_include_directories(${PROJECT_NAME}Exe PRIVATE ${raylib_INCLUDE_DIRS} flecs::flecs_static) 
-target_link_libraries(${PROJECT_NAME}Exe PRIVATE ${raylib_LIBRARIES} flecs::flecs_static)
+target_include_directories(${PROJECT_NAME}Exe PRIVATE ${raylib_INCLUDE_DIRS} entt:entt_static) 
+target_link_libraries(${PROJECT_NAME}Exe PRIVATE ${raylib_LIBRARIES} entt:entt_static)
 
 
 # copy assets

@@ -1,7 +1,7 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <flecs.h>
+#include <entt/entt.hpp>
 #include <vector>
 
 #include "GameObject.h"
@@ -15,7 +15,7 @@ namespace SagardoEngine
     {     
         private:
             const char* _name;
-            flecs::world _world;
+            entt::registry _world;
             std::vector<GameObject*> _gameObjects;
 
         public:

@@ -4,7 +4,8 @@
 #include "raylib.h"
 
 namespace SagardoEngine
-{
+{   
+    
     struct PositionComponent
     {
         float X;
@@ -18,7 +19,7 @@ namespace SagardoEngine
         float Y;
         float Z;
     };
-
+    
     struct RotationEulerComponent
     {
         float X;
@@ -59,6 +60,68 @@ namespace SagardoEngine
     {
         const char* Path;
     };
+
+    //Extension Methods
+
+    static PositionComponent ToPositionComponent(this const Vector3& position)
+    {
+        return PositionComponent
+        {
+            .X = position.x,
+            .Y = position.y,
+            .Z = position.z,
+        };
+    }
+
+    static Vector3 ToVector3(this const PositionComponent& position)
+    {
+        return Vector3
+        {
+            .x = position.X,
+            .y = position.Y,
+            .z = position.Z,
+        };
+    }
+
+    static ScaleComponent ToScaleComponent(this const Vector3& position)
+    {
+        return ScaleComponent
+        {
+            .X = position.x,
+            .Y = position.y,
+            .Z = position.z,
+        };
+    }
+
+    static Vector3 ToVector3(this const ScaleComponent& position)
+    {
+        return Vector3
+        {
+            .x = position.X,
+            .y = position.Y,
+            .z = position.Z,
+        };
+    }
+
+    static RotationEulerComponent ToRotationEulerComponent(this const Vector3& position)
+    {
+        return RotationEulerComponent
+        {
+            .X = position.x,
+            .Y = position.y,
+            .Z = position.z,
+        };
+    }
+
+    static Vector3 ToVector3(this const RotationEulerComponent& position)
+    {
+        return Vector3
+        {
+            .x = position.X,
+            .y = position.Y,
+            .z = position.Z,
+        };
+    }
 }
 
 #endif

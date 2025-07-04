@@ -1,5 +1,6 @@
 #ifndef RENDERER_H
 #define RENDERER_H
+
 #include "Components.h"
 #include "IRenderPipeline.h"
 #include "Scene.h"

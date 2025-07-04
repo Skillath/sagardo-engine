@@ -5,7 +5,6 @@
 #include <iostream>
 #include <raylib.h>
 #include <print>
-#include <string>
 
 using namespace SagardoEngine;
 
@@ -13,7 +12,6 @@ Scene::Scene(const char *name)
 {
     _name = name;
     std::println("New Scene created {0}!", name);
-
 }
 
 Scene::~Scene()
@@ -32,6 +30,7 @@ Scene::~Scene()
 
 void Scene::Start()
 {
+    
     _world
         .system<
             const CameraComponent,
@@ -129,12 +128,13 @@ void Scene::Update(const float dt)
             const RotationEulerComponent &rotationComponent,
             const ScaleComponent &scaleComponent)
         {
+            
             DrawModelEx(
                 modelComponent.LoadedModel,
-                Vector3{positionComponent.X, positionComponent.Y, positionComponent.Z},
-                Vector3{rotationComponent.X, rotationComponent.Y, rotationComponent.Z},
+                ToVector3(positionComponent.To),
+                ToVector3(rotationComponent),
                 0.f,
-                Vector3{scaleComponent.X, scaleComponent.Y, scaleComponent.Z},
+                ToVector3(scaleComponent),
                 WHITE);
         });
 

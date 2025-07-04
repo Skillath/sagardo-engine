@@ -9,6 +9,8 @@
 #include "Engine/Components.h"
 #include "Engine/RenderPipeline.h"
 
+using namespace SagardoEngine;
+
 void Setup();
 void Destroy();
 
@@ -16,9 +18,9 @@ int main()
 {
     Setup();
 
-    SagardoEngine::Scene gameContextScene("NewScene");
+    Scene gameContextScene("NewScene");
     
-    SagardoEngine::CameraComponent cameraComponent =
+    CameraComponent cameraComponent =
     {
         .Fov = 45.f,
         .Target = Vector3{0, 10, 0},
@@ -27,18 +29,18 @@ int main()
     };
 
     auto modelGameObject = gameContextScene.NewGameObject("3D Model");
-    modelGameObject->AddComponent<SagardoEngine::FileLoaderComponent>(
+    modelGameObject->AddComponent<FileLoaderComponent>(
     {
         .Path = "/res/models/Fox.glb",
     });
     
-    modelGameObject->AddComponent<SagardoEngine::ModelComponent>({ });
-    modelGameObject->AddComponent<SagardoEngine::ModelAnimationComponent>({ });
+    modelGameObject->AddComponent<ModelComponent>({ });
+    modelGameObject->AddComponent<ModelAnimationComponent>({ });
 
     auto cameraObject = gameContextScene.NewGameObject("Camera");
     cameraObject->AddComponent(cameraComponent);
-    cameraObject->RemoveComponent<SagardoEngine::PositionComponent>();
-    cameraObject->AddComponent<SagardoEngine::PositionComponent>(
+    cameraObject->RemoveComponent<PositionComponent>();
+    cameraObject->AddComponent<PositionComponent>(
     {
         .X = 50.f,
         .Y = 50.f,
@@ -47,13 +49,8 @@ int main()
 
     gameContextScene.Start();
 
-    auto cameraRef = cameraObject->GetComponent<SagardoEngine::CameraRefComponent>();
-
-    SagardoEngine::RenderPipeline renderer
-    {
-        &gameContextScene,
-        &cameraRef
-    };
+    auto cameraRef = cameraObject->GetComponent<CameraRefComponent>();
+    RenderPipeline renderer(&gameContextScene, &cameraRef);
 
     while (!WindowShouldClose())
     {
