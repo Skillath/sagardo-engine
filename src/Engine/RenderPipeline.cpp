@@ -1,4 +1,4 @@
-#include <raylib.h>
+#include "raylib.h"
 
 #include "RenderPipeline.h"
 #include "Scene.h"
@@ -9,7 +9,7 @@ namespace SagardoEngine
         Scene* scene,
         CameraRefComponent* camera)
     {
-        _scene=scene;
+        _scene = scene;
         _camera = camera;
     }
 

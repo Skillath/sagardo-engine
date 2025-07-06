@@ -1,40 +1,41 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <entt/entt.hpp>
+#include "flecs.h"
 
 namespace SagardoEngine::Ecs
 {
     class Entity
     {
     private:
-        entt::registry* _world;
-        const entt::entity  _entityId;
+        flecs::world* _world;
+        const flecs::entity  _entityId;
         
     public:
         Entity(
-            const entt::entity entityId,
-            entt::registry* world);
+            const flecs::entity entityId,
+            flecs::world* world);
         ~Entity();
 
         void Destroy() const;
 
+
         template<typename T>
         void AddComponent(T component) const
         {
-            _world->emplace_or_replace<T>(_entityId, component);
+            _entityId.set<T>(component);
         }
 
         template<typename T>
         void RemoveComponent() const
         {
-            _world->remove<T>(_entityId);
+            auto entity = _entityId.remove<T>();
         }
 
         template<typename T>
-        T& GetComponent() const
+        const T& GetComponent() const
         {
-            return _world->get<T>(_entityId);
+            return _entityId.get<T>();
         }
     };
 }

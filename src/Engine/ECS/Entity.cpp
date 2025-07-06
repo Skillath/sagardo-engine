@@ -1,18 +1,18 @@
 #include "Entity.h"
 
-#include <entt/entity/registry.hpp>
+#include <print>
 
 using namespace SagardoEngine::Ecs;
 
 Entity::Entity(
-    const entt::entity entityId,
-    entt::registry* world)
-    : _entityId(entityId)
+    const flecs::entity entityId,
+    flecs::world* world)
+    : _world(world), _entityId(entityId)
 {
     if (world == nullptr)
         throw std::invalid_argument("world is null");
-    
-    _world = world;
+
+    std::println("Entity created: {0}", std::to_string(entityId));
 }
 
 Entity::~Entity()
@@ -22,9 +22,7 @@ Entity::~Entity()
 }
 
 void Entity::Destroy() const
-{
-    if (!_world->valid(_entityId))
-        return;
-    
-    _world->destroy(_entityId);
+{    
+    _entityId.destruct();
+    std::println("Entity destroyed: {0}", std::to_string(_entityId));
 }

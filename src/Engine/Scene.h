@@ -7,6 +7,7 @@
 #include "IStartable.h"
 #include "IStopable.h"
 #include "IUpdatable.h"
+#include "ECS/World.h"
 
 namespace SagardoEngine 
 {
@@ -14,7 +15,7 @@ namespace SagardoEngine
     {     
         private:
             const char* _name;
-            Ecs::World _world;
+            Ecs::World* _world;
             std::vector<GameObject*> _gameObjects;
 
         public:
@@ -23,7 +24,7 @@ namespace SagardoEngine
 
             void Start() override;
             void Stop() override;
-            void Update(float dt) override;
+            void Update(float deltaTime) override;
         
             GameObject* NewGameObject(const char* name);
             bool TryRemoveGameObject(const GameObject* gameObject);

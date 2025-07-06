@@ -1,19 +1,39 @@
-//
-// Created by xabi on 4/07/25.
-//
-
 #include "World.h"
+
+#include <stdexcept>
+
+#include "ISystem.h"
 
 using namespace SagardoEngine::Ecs;
 
+World::~World()
+{
+    _world.release();
+}
+
 Entity World::CreateEntity()
 {
-    const auto entity = _world.create();
+    const auto entity = _world.entity();
             
-    return Entity(entity, &_world);
+    return Entity
+    {
+        entity,
+        &_world,
+    };
 }
 
 void World::DestroyEntity(const Entity& entity)
 {
     entity.Destroy();
+}
+
+void World::RunSystem(ISystem& system, float deltaTime)
+{
+    system.Run(_world, deltaTime);
+}
+
+void World::Update(float deltaTime) const
+{
+    if (!_world.progress(deltaTime))
+        throw std::runtime_error("Scene update failed!");
 }

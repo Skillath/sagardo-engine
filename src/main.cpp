@@ -49,14 +49,10 @@ int main()
 
     gameContextScene.Start();
 
-    auto cameraRef = cameraObject->GetComponent<CameraRefComponent>();
-    RenderPipeline renderer(&gameContextScene, &cameraRef);
-
     while (!WindowShouldClose())
     {
         const auto dt = GetFrameTime();
         gameContextScene.Update(dt);
-        renderer.Render();
     }
 
     gameContextScene.Stop();

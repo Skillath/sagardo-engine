@@ -17,28 +17,27 @@ namespace SagardoEngine
         public:
             GameObject(
                 const char *name,
-                const Ecs::World* world);
+                Ecs::World* world);
 
-            GameObject(const char* name, Ecs::World* world);
             ~GameObject();
+        
+        template<typename T>
+        void AddComponent(T component) const
+        {
+            _entity.AddComponent<T>(component);
+        }
 
-            template<typename T>
-            void AddComponent(T component) const
-            {
-                _entity.AddComponent<T>(component);
-            }
+        template<typename T>
+        void RemoveComponent() const
+        {
+            _entity.RemoveComponent<T>();
+        }
 
-            template<typename T>
-            void RemoveComponent() const
-            {
-                _entity.RemoveComponent<T>();
-            }
-
-            template<typename T>
-            T GetComponent() const
-            {
-                return _entity.GetComponent<T>();
-            }
+        template<typename T>
+        T GetComponent() const
+        {
+            return _entity.GetComponent<T>();
+        }
     };
 }
 
