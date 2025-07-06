@@ -9,16 +9,17 @@ namespace SagardoEngine
     class GameObject
     {
         private:
-            const Ecs::World _world;
-            const Ecs::Entity _entity;
+            Ecs::World* _world;
+            Ecs::Entity _entity;
         
             const char* _name;
 
         public:
             GameObject(
                 const char *name,
-                const Ecs::World& world);
+                const Ecs::World* world);
 
+            GameObject(const char* name, Ecs::World* world);
             ~GameObject();
 
             template<typename T>
@@ -30,7 +31,7 @@ namespace SagardoEngine
             template<typename T>
             void RemoveComponent() const
             {
-                auto entity = _entity.RemoveComponent<T>();
+                _entity.RemoveComponent<T>();
             }
 
             template<typename T>

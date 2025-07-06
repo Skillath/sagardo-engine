@@ -1,24 +1,20 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <entt/entity/entity.hpp>
-#include <entt/entity/registry.hpp>
+#include <entt/entt.hpp>
 
 namespace SagardoEngine::Ecs
 {
     class Entity
     {
     private:
-        const char* _name;
-        const entt::registry* _world;
-        const entt::entity _entityId;
+        entt::registry* _world;
+        const entt::entity  _entityId;
         
     public:
         Entity(
-            const char* name,
-            const entt::entity& entityId,
-            const entt::registry* world);
-        
+            const entt::entity entityId,
+            entt::registry* world);
         ~Entity();
 
         void Destroy() const;
@@ -42,6 +38,5 @@ namespace SagardoEngine::Ecs
         }
     };
 }
-
 
 #endif //ENTITY_H

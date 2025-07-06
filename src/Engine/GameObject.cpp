@@ -6,14 +6,12 @@
 using namespace SagardoEngine;
 
 GameObject::GameObject(
-    const char* name,
-    const Ecs::World& world)
-    : _world(world)
+    const char *name,
+    Ecs::World* world) : _entity(world->CreateEntity())
 {
     _name = name;
+    _world = world;
     
-    _entity = _world.CreateEntity();
-
     _entity.AddComponent<PositionComponent>(
         {
             .X = 0,
@@ -43,4 +41,5 @@ GameObject::~GameObject()
     
     _entity.Destroy();
     _name = nullptr;
+    _world = nullptr;
 }

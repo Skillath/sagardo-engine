@@ -1,7 +1,6 @@
-#include "RenderPipeline.h"
-
 #include <raylib.h>
 
+#include "RenderPipeline.h"
 #include "Scene.h"
 
 namespace SagardoEngine

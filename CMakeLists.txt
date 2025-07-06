@@ -4,7 +4,7 @@ project(CiderEngine)
 
 include(FetchContent)
 
-set(CMAKE_CXX_STANDARD 23) # Requires C11 standard
+set(CMAKE_CXX_STANDARD 26) # Requires C11 standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

@@ -10,13 +10,10 @@ Entity World::CreateEntity()
 {
     const auto entity = _world.create();
             
-    return Entity
-    {
-        entity
-    };
+    return Entity(entity, &_world);
 }
 
 void World::DestroyEntity(const Entity& entity)
 {
-    _world.destroy(entity._entityId);
+    entity.Destroy();
 }

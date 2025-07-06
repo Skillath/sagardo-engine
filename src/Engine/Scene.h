@@ -1,7 +1,6 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <entt/entt.hpp>
 #include <vector>
 
 #include "GameObject.h"
@@ -15,7 +14,7 @@ namespace SagardoEngine
     {     
         private:
             const char* _name;
-            entt::registry _world;
+            Ecs::World _world;
             std::vector<GameObject*> _gameObjects;
 
         public:

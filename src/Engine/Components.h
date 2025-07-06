@@ -62,8 +62,7 @@ namespace SagardoEngine
     };
 
     //Extension Methods
-
-    static PositionComponent ToPositionComponent(this const Vector3& position)
+    static PositionComponent ToPositionComponent(const Vector3& position)
     {
         return PositionComponent
         {
@@ -73,7 +72,7 @@ namespace SagardoEngine
         };
     }
 
-    static Vector3 ToVector3(this const PositionComponent& position)
+    static Vector3 ToVector3(const PositionComponent& position)
     {
         return Vector3
         {
@@ -83,43 +82,43 @@ namespace SagardoEngine
         };
     }
 
-    static ScaleComponent ToScaleComponent(this const Vector3& position)
+    static ScaleComponent ToScaleComponent(const Vector3& scale)
     {
         return ScaleComponent
         {
-            .X = position.x,
-            .Y = position.y,
-            .Z = position.z,
+            .X = scale.x,
+            .Y = scale.y,
+            .Z = scale.z,
         };
     }
 
-    static Vector3 ToVector3(this const ScaleComponent& position)
+    static Vector3 ToVector3(const ScaleComponent& scale)
     {
         return Vector3
         {
-            .x = position.X,
-            .y = position.Y,
-            .z = position.Z,
+            .x = scale.X,
+            .y = scale.Y,
+            .z = scale.Z,
         };
     }
 
-    static RotationEulerComponent ToRotationEulerComponent(this const Vector3& position)
+    static RotationEulerComponent ToRotationEulerComponent(const Vector3& eulerAngles)
     {
         return RotationEulerComponent
         {
-            .X = position.x,
-            .Y = position.y,
-            .Z = position.z,
+            .X = eulerAngles.x,
+            .Y = eulerAngles.y,
+            .Z = eulerAngles.z,
         };
     }
 
-    static Vector3 ToVector3(this const RotationEulerComponent& position)
+    static Vector3 ToVector3(const RotationEulerComponent& eulerAngles)
     {
         return Vector3
         {
-            .x = position.X,
-            .y = position.Y,
-            .z = position.Z,
+            .x = eulerAngles.X,
+            .y = eulerAngles.Y,
+            .z = eulerAngles.Z,
         };
     }
 }

@@ -10,11 +10,11 @@ namespace SagardoEngine::Ecs
     class World
     {
     private:
-        entt::registry* _world;
+        entt::registry _world;
     
     public:
         Entity CreateEntity();
-        
+        static void DestroyEntity(const Entity& entity);
     };
 
 }
