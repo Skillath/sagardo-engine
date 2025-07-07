@@ -1,13 +1,13 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <flecs.h>
 #include <vector>
 
 #include "GameObject.h"
 #include "IStartable.h"
 #include "IStopable.h"
 #include "IUpdatable.h"
+#include "ECS/World.h"
 
 namespace SagardoEngine 
 {
@@ -15,7 +15,7 @@ namespace SagardoEngine
     {     
         private:
             const char* _name;
-            flecs::world _world;
+            Ecs::World* _world;
             std::vector<GameObject*> _gameObjects;
 
         public:
@@ -24,7 +24,7 @@ namespace SagardoEngine
 
             void Start() override;
             void Stop() override;
-            void Update(float dt) override;
+            void Update(float deltaTime) override;
         
             GameObject* NewGameObject(const char* name);
             bool TryRemoveGameObject(const GameObject* gameObject);

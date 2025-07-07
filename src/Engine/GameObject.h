@@ -1,40 +1,43 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
-#include <flecs.h>
-#include <string>
+#include "ECS/Entity.h"
+#include "ECS/World.h"
 
 namespace SagardoEngine
 {
     class GameObject
     {
         private:
-            flecs::world* _world;
-            flecs::entity _entity;
+            Ecs::World* _world;
+            Ecs::Entity _entity;
+        
             const char* _name;
 
         public:
-            GameObject(const char *name, flecs::world *world);
+            GameObject(
+                const char *name,
+                Ecs::World* world);
 
             ~GameObject();
+        
+        template<typename T>
+        void AddComponent(T component) const
+        {
+            _entity.AddComponent<T>(component);
+        }
 
-            template<typename T>
-            void AddComponent(T component) const
-            {
-                _entity.set<T>(component);
-            }
+        template<typename T>
+        void RemoveComponent() const
+        {
+            _entity.RemoveComponent<T>();
+        }
 
-            template<typename T>
-            void RemoveComponent() const
-            {
-                auto entity = _entity.remove<T>();
-            }
-
-            template<typename T>
-            T GetComponent() const
-            {
-                return *_entity.get<T>();
-            }
+        template<typename T>
+        T GetComponent() const
+        {
+            return _entity.GetComponent<T>();
+        }
     };
 }
 

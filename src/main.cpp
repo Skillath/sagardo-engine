@@ -7,45 +7,43 @@
 #include "raylib.h"
 #include "Engine/Scene.h"
 #include "Engine/Components.h"
-#include "Engine/RenderPipeline.h"
+
+using namespace SagardoEngine;
 
 void Setup();
-
 void Destroy();
 
 int main()
 {
     Setup();
+
+    Scene gameContextScene("NewScene");
     
-    SagardoEngine::RenderPipeline renderer;
-
-    SagardoEngine::Scene gameContextScene("NewScene");
-
-    SagardoEngine::CameraComponent cameraComponent =
+    CameraComponent cameraComponent =
     {
-        45.f,
-        Vector3{0, 10, 0},
-        Vector3{0, 1, 0},
-        CAMERA_PERSPECTIVE,
+        .Fov = 45.f,
+        .Target = Vector3{0, 10, 0},
+        .Up = Vector3{0, 1, 0},
+        .Projection = CAMERA_PERSPECTIVE,
     };
 
     auto modelGameObject = gameContextScene.NewGameObject("3D Model");
-    modelGameObject->AddComponent<SagardoEngine::FileLoaderComponent>(
+    modelGameObject->AddComponent<FileLoaderComponent>(
     {
-        "/res/models/Fox.glb",
+        .Path = "/res/models/Fox.glb",
     });
     
-    modelGameObject->AddComponent<SagardoEngine::ModelComponent>({  });
-    modelGameObject->AddComponent<SagardoEngine::ModelAnimationComponent>({});
+    modelGameObject->AddComponent<ModelComponent>({ });
+    modelGameObject->AddComponent<ModelAnimationComponent>({ });
 
     auto cameraObject = gameContextScene.NewGameObject("Camera");
     cameraObject->AddComponent(cameraComponent);
-    cameraObject->RemoveComponent<SagardoEngine::PositionComponent>();
-    cameraObject->AddComponent<SagardoEngine::PositionComponent>(
+    cameraObject->RemoveComponent<PositionComponent>();
+    cameraObject->AddComponent<PositionComponent>(
     {
-        50.f,
-        50.f,
-        50.f,
+        .X = 50.f,
+        .Y = 50.f,
+        .Z = 50.f,
     });
 
     gameContextScene.Start();
@@ -53,37 +51,25 @@ int main()
     while (!WindowShouldClose())
     {
         const auto dt = GetFrameTime();
-        
-        renderer.Render();
+        gameContextScene.Update(dt);
 
-        BeginDrawing();
-        {
-            ClearBackground(RAYWHITE);
-
-            const auto cameraRef = cameraObject->GetComponent<SagardoEngine::CameraRefComponent>();
-            const auto camera = cameraRef.CameraRef;
-
-            BeginMode3D(camera);
-            {
-                gameContextScene.Update(dt);
-            }
-            EndMode3D();
-
-            DrawFPS(0,0);
-        }
-        EndDrawing();
+        DrawFPS(0,0);
     }
 
     gameContextScene.Stop();
 
-    Destroy()
+    Destroy();
 
     return 0;
 }
 
 void Setup()
 {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Game Engine");
+    InitWindow(
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        "Game Engine");
+    
     InitAudioDevice();
 
     SetTargetFPS(144);

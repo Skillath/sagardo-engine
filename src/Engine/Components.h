@@ -1,10 +1,17 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
+#include <glm/glm.hpp>
+
 #include "raylib.h"
 
 namespace SagardoEngine
-{
+{   
+    struct TransformComponent
+    {
+        glm::mat4x4 Transform;
+    };
+    
     struct PositionComponent
     {
         float X;
@@ -18,7 +25,7 @@ namespace SagardoEngine
         float Y;
         float Z;
     };
-
+    
     struct RotationEulerComponent
     {
         float X;
@@ -39,6 +46,7 @@ namespace SagardoEngine
     struct ModelAnimationComponent
     {
         int AnimationsCount;
+        int CurrentFrame;
         ModelAnimation* Animations;
     };
 
@@ -59,6 +67,12 @@ namespace SagardoEngine
     {
         const char* Path;
     };
+
+    struct RendererComponent
+    {
+        bool RenderToTexture = false;
+    };
+    
 }
 
 #endif
