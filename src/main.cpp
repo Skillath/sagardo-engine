@@ -7,7 +7,6 @@
 #include "raylib.h"
 #include "Engine/Scene.h"
 #include "Engine/Components.h"
-#include "Engine/RenderPipeline.h"
 
 using namespace SagardoEngine;
 
@@ -53,6 +52,8 @@ int main()
     {
         const auto dt = GetFrameTime();
         gameContextScene.Update(dt);
+
+        DrawFPS(0,0);
     }
 
     gameContextScene.Stop();

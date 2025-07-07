@@ -63,9 +63,6 @@ void Scene::Update(const float deltaTime)
 {
     RendererSystem rendererSystem { };
     _world->RunSystem(rendererSystem, deltaTime);
-
-    _world->Update(deltaTime);
-    std::println("Update {0}!", deltaTime);
 }
 
 void Scene::Stop()

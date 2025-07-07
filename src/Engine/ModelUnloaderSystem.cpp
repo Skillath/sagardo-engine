@@ -16,8 +16,6 @@ void SagardoEngine::ModelUnloaderSystem::Run(flecs::world& world, float deltaTim
         .each([](const ModelComponent &modelComponent)
         {
            UnloadModel(modelComponent.LoadedModel);
-        });
-    
-    if (!world.progress())
-        throw std::runtime_error("Scene stop failed!");
+        })
+        .run();
 }

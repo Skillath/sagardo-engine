@@ -54,8 +54,6 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/IUpdatable.h
         src/Engine/IStartable.h
         src/Engine/IStopable.h
-        src/Engine/RenderPipeline.cpp
-        src/Engine/RenderPipeline.h
         src/Engine/IRenderPipeline.h
         src/Engine/ComponentUtils.h
         src/Engine/RendererSystem.cpp

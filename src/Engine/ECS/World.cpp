@@ -32,7 +32,7 @@ void World::RunSystem(ISystem& system, float deltaTime)
     system.Run(_world, deltaTime);
 }
 
-void World::Update(float deltaTime) const
+void World::Update(const float deltaTime) const
 {
     if (!_world.progress(deltaTime))
         throw std::runtime_error("Scene update failed!");

@@ -1,7 +1,3 @@
-//
-// Created by xabi on 6/07/25.
-//
-
 #ifndef RENDERERSYSTEM_H
 #define RENDERERSYSTEM_H
 
@@ -12,9 +8,8 @@ namespace SagardoEngine
     class RendererSystem final : public Ecs::ISystem
     {
     public:
-        void Run(flecs::world& world, float deltaTime) override;
+        void Run(flecs::world& world, const float deltaTime) override;
     };
 }
-
 
 #endif //RENDERERSYSTEM_H

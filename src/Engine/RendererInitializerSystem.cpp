@@ -60,8 +60,8 @@ void RendererInitializerSystem::Run(flecs::world& world, float deltaTime)
             modelAnimationComponent.Animations = animations;
     
             entity.remove<FileLoaderComponent>();
-        });
+        })
+        .run();
     
-    if (!world.progress())
-        throw std::runtime_error("Scene initialization failed!");
+
 }

@@ -20,9 +20,9 @@ GameObject::GameObject(
 
     _entity.AddComponent<ScaleComponent>(
     {
-        .X = 1,
-        .Y = 1,
-        .Z = 1,
+        .X = 0.1,
+        .Y = 0.1,
+        .Z = 0.1,
     });
 
     _entity.AddComponent<RotationEulerComponent>(

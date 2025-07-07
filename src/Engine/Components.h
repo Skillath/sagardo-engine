@@ -46,6 +46,7 @@ namespace SagardoEngine
     struct ModelAnimationComponent
     {
         int AnimationsCount;
+        int CurrentFrame;
         ModelAnimation* Animations;
     };
 
