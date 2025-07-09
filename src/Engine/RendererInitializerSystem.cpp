@@ -31,7 +31,8 @@ void RendererInitializerSystem::Run(flecs::world& world, float deltaTime)
                 entity.set<CameraRefComponent>(CameraRefComponent{ camera });
     
                 std::println("Camera created!");
-            });
+            })
+        .run();
     
     world
         .system<

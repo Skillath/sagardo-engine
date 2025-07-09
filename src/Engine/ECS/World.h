@@ -18,6 +18,25 @@ namespace SagardoEngine::Ecs
 
         void RunSystem(ISystem& system, float deltaTime);
         void Update(float deltaTime) const;
+
+        
+        template<typename T>
+        void AddComponent(T component) const
+        {
+            _world.set<T>(component);
+        }
+
+        template<typename T>
+        void RemoveComponent() const
+        {
+            auto entity = _world.remove<T>();
+        }
+
+        template<typename T>
+        const T& GetComponent() const
+        {
+            return _world.get<T>();
+        }
     };
 
 }

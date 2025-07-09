@@ -27,6 +27,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(flecs)
 
+FetchContent_Declare(
+        sdl3
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-3.2.16
+)
+
+FetchContent_MakeAvailable(sdl3)
+
 # ECS Static Library
 add_library(${PROJECT_NAME}_ecs STATIC
         src/Engine/ECS/World.cpp
@@ -74,6 +82,7 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC
         flecs::flecs_static
         raylib
+        SDL3::SDL3
         ${PROJECT_NAME}_ecs
 )
 

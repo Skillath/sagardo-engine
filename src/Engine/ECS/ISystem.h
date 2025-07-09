@@ -15,7 +15,7 @@ namespace SagardoEngine::Ecs
         ~ISystem() = default;
 
     public:
-        virtual void Run(flecs::world& world, float deltaTime) = 0;
+        virtual void Run(flecs::world& world, const float deltaTime) = 0;
     };
 }
 

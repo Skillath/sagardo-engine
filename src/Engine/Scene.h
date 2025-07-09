@@ -28,7 +28,6 @@ namespace SagardoEngine
         
             GameObject* NewGameObject(const char* name);
             bool TryRemoveGameObject(const GameObject* gameObject);
-
     };
 }
 
