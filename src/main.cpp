@@ -4,17 +4,49 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#include "raylib.h"
-#include "Engine/Scene.h"
-#include "Engine/Components.h"
+#include "glad/gl.h"
+#include "GLFW/glfw3.h"
 
-using namespace SagardoEngine;
+int main(void)
+{  
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
 
-void Setup();
-void Destroy();
-Scene* SetupScene();
+    /* Create a windowed mode window and its OpenGL context */
+    auto window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
 
-int main()
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+
+    /* glad: load all OpenGL function pointers */
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        return -1;
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+/*
+void Raylib()
 {
     Setup();
 
@@ -33,8 +65,6 @@ int main()
     gameContextScene.Stop();
 
     Destroy();
-
-    return 0;
 }
 
 void Setup()
@@ -47,6 +77,8 @@ void Setup()
     InitAudioDevice();
 
     SetTargetFPS(144);
+
+    rlDisableBackfaceCulling();
 }
 
 void Destroy()
@@ -74,12 +106,6 @@ Scene* SetupScene()
             .Y = 0,
             .Z = i * 1.f,
         });
-        modelGameObject->AddComponent<ScaleComponent>(
-        {
-            .X = 0.1f,
-            .Y = 0.1f,
-            .Z = 0.1f,
-        });
     }
 
     auto cameraObject = gameContextScene->NewGameObject("Camera");
@@ -100,6 +126,5 @@ Scene* SetupScene()
 
     return gameContextScene;
 }
-
-
+*/
 #endif
