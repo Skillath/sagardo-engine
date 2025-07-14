@@ -1,13 +1,19 @@
 cmake_minimum_required(VERSION 3.26...3.31.6)
-project(CiderEngine LANGUAGES C CXX)
+project(
+        CiderEngine 
+        VERSION 0.0.1
+        LANGUAGES C CXX)
 
 include(GenerateExportHeader)
 
-set(CMAKE_CXX_STANDARD 26)            # Requires C11 standard? Adjust if needed
+set(CMAKE_CXX_STANDARD 26)            
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Generate compile_commands.json
 
 find_package(OpenGL REQUIRED)
+# Vulkan stuff
+#find_package(Vulkan REQUIRED COMPONENTS glslc glslang SPIRV-Tools)
+
 add_subdirectory(deps)
 
 # ECS Static Library
@@ -31,6 +37,7 @@ target_link_libraries(${PROJECT_NAME}_ecs
 
 # Core Engine Library
 add_library(${PROJECT_NAME} STATIC
+        ${SOURCES} ${HEADERS}
         src/Engine/GameObject.cpp
         src/Engine/Scene.cpp
         src/Engine/Components.h
@@ -54,10 +61,11 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
         PUBLIC
-        glad
+        assimp
         glfw
         glm
-        assimp
+        Jolt
+        glad
         ${PROJECT_NAME}_ecs
 )
 
@@ -87,4 +95,16 @@ if(APPLE)
           "-framework Cocoa"
           "-framework OpenGL"
   )
+endif()
+
+if(NOT GLAD_CUSTOM_OUTPUT)
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin/debug/")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin/release/")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}/build/bin/MinSizeRel/")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/build/bin/RelWithDebInfo/")
+else()
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${GLAD_CUSTOM_OUTPUT_DEBUG}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${GLAD_CUSTOM_OUTPUT_RELEASE}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${GLAD_CUSTOM_OUTPUT_MINSIZEREL}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${GLAD_CUSTOM_OUTPUT_RELWITHDEBINFO}")
 endif()

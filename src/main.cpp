@@ -4,8 +4,12 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#include "glad/gl.h"
+#include "glad/glad.h" 
 #include "GLFW/glfw3.h"
+#include <print>
+
+void OnWindowResized(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
 
 int main(void)
 {  
@@ -13,10 +17,22 @@ int main(void)
     if (!glfwInit())
         return -1;
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
     /* Create a windowed mode window and its OpenGL context */
-    auto window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello World", NULL, NULL);
-    if (!window)
+    const auto window = glfwCreateWindow(
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        "Hello World",
+        nullptr,
+        nullptr);
+    
+    if (window == nullptr)
     {
+        std::println("Failed to create GLFW window");
         glfwTerminate();
         return -1;
     }
@@ -26,67 +42,50 @@ int main(void)
 
     /* glad: load all OpenGL function pointers */
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::println("Failed to initialize GLAD");
         return -1;
+    }
+
+    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    glfwSetFramebufferSizeCallback(window, OnWindowResized);  
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
-    {
+    {        
         /* Render here */
+        processInput(window);
+
+        //RENDERING!
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
         /* Poll for and process events */
         glfwPollEvents();
-    }
 
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+    }
+    
+    
     glfwTerminate();
     return 0;
 }
-/*
-void Raylib()
+
+void OnWindowResized(GLFWwindow* window, int width, int height)
 {
-    Setup();
+    glViewport(0, 0, width, height);
+}  
 
-    auto gameContextScene = *SetupScene();
-
-    gameContextScene.Start();
-
-    while (!WindowShouldClose())
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
-        const auto dt = GetFrameTime();
-        gameContextScene.Update(dt);
-
-        DrawFPS(0,0);
+        glfwSetWindowShouldClose(window, true);
     }
-
-    gameContextScene.Stop();
-
-    Destroy();
 }
 
-void Setup()
-{
-    InitWindow(
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
-        "Game Engine");
-    
-    InitAudioDevice();
-
-    SetTargetFPS(144);
-
-    rlDisableBackfaceCulling();
-}
-
-void Destroy()
-{
-    CloseAudioDevice();
-    CloseWindow();
-}
-
+/*
 Scene* SetupScene()
 {
     auto gameContextScene = new Scene("NewScene");
