@@ -52,6 +52,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/ModelUnloaderSystem.h
         src/Engine/RendererInitializerSystem.cpp
         src/Engine/RendererInitializerSystem.h
+        src/Engine/Renderer/IRenderer.h
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -70,7 +71,11 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Executable
-add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+        src/HelloTriangle.cpp
+        src/HelloTriangle.h
+        src/VkHelloTriangle.cpp
+        src/VkHelloTriangle.h)
 
 target_link_libraries(DemoExecutable
         PRIVATE

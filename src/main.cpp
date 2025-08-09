@@ -8,8 +8,10 @@
 #include "GLFW/glfw3.h"
 #include <print>
 
+#include "HelloTriangle.h"
+
 void OnWindowResized(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
+void ProcessInput(GLFWwindow *window);
 
 int main(void)
 {  
@@ -20,8 +22,11 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
+    
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+    
     /* Create a windowed mode window and its OpenGL context */
     const auto window = glfwCreateWindow(
         SCREEN_WIDTH,
@@ -39,6 +44,7 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, OnWindowResized);
 
     /* glad: load all OpenGL function pointers */
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -47,37 +53,37 @@ int main(void)
         return -1;
     }
 
-    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glfwSetFramebufferSizeCallback(window, OnWindowResized);  
+    //const HelloTriangle helloTriangle {};
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {        
         /* Render here */
-        processInput(window);
+        ProcessInput(window);
 
         //RENDERING!
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /* Poll for and process events */
-        glfwPollEvents();
-
-        /* Swap front and back buffers */
+        //helloTriangle.Draw();
+        
         glfwSwapBuffers(window);
+        glfwPollEvents();
     }
-    
     
     glfwTerminate();
     return 0;
 }
 
-void OnWindowResized(GLFWwindow* window, int width, int height)
+void OnWindowResized(
+    GLFWwindow* window,
+    const int width,
+    const int height)
 {
     glViewport(0, 0, width, height);
 }  
 
-void processInput(GLFWwindow *window)
+void ProcessInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
