@@ -3,8 +3,6 @@
 
 #include <glm/glm.hpp>
 
-#include "raylib.h"
-
 namespace SagardoEngine
 {   
     struct TransformComponent
@@ -35,32 +33,23 @@ namespace SagardoEngine
 
     struct MeshComponent
     {
-        Mesh LoadedMesh;
-    };
-
-    struct ModelComponent
-    {
-        Model LoadedModel;
+        unsigned int VAO;
+        unsigned int VBO;
+        unsigned int EBO;
     };
 
     struct ModelAnimationComponent
     {
         int AnimationsCount;
         int CurrentFrame;
-        ModelAnimation* Animations;
     };
 
     struct CameraComponent
     {
         float Fov;
-        Vector3 Target;
-        Vector3 Up;
-        CameraProjection Projection;
-    };
-
-    struct CameraRefComponent
-    {
-        Camera CameraRef;
+        glm::vec3 Target;
+        glm::vec3 Up;
+        
     };
 
     struct FileLoaderComponent

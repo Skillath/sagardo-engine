@@ -8,10 +8,15 @@
 #include "GLFW/glfw3.h"
 #include <print>
 
+#include "ComponentUtils.h"
 #include "HelloTriangle.h"
+#include "Scene.h"
+
+using namespace SagardoEngine;
 
 void OnWindowResized(GLFWwindow* window, int width, int height);
 void ProcessInput(GLFWwindow *window);
+Scene* SetupScene();
 
 int main(void)
 {  
@@ -53,7 +58,8 @@ int main(void)
         return -1;
     }
 
-    //const HelloTriangle helloTriangle {};
+    const HelloTriangle helloTriangle {};
+    const auto scene = SetupScene();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -65,7 +71,7 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //helloTriangle.Draw();
+        helloTriangle.Draw();
         
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -91,7 +97,6 @@ void ProcessInput(GLFWwindow *window)
     }
 }
 
-/*
 Scene* SetupScene()
 {
     auto gameContextScene = new Scene("NewScene");
@@ -104,7 +109,7 @@ Scene* SetupScene()
             .Path = "/res/models/Fox.glb",
         });
     
-        modelGameObject->AddComponent<ModelComponent>({ });
+        //modelGameObject->AddComponent<ModelComponent>({ });
         modelGameObject->AddComponent<ModelAnimationComponent>({ });
         modelGameObject->AddComponent<PositionComponent>({
             .X = i * 2.f,
@@ -117,9 +122,9 @@ Scene* SetupScene()
     cameraObject->AddComponent<CameraComponent>(
     {
         .Fov = 45.f,
-        .Target = Vector3{0, 10, 0},
-        .Up = Vector3{0, 1, 0},
-        .Projection = CAMERA_PERSPECTIVE,
+        .Target = glm::vec3{0, 10, 0},
+        .Up = glm::vec3{0, 1, 0},
+        //.Projection = CAMERA_PERSPECTIVE,
     });
     
     cameraObject->AddComponent<PositionComponent>(
@@ -130,6 +135,5 @@ Scene* SetupScene()
     });
 
     return gameContextScene;
-}
-*/
+} 
 #endif

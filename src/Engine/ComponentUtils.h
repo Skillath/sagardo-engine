@@ -1,7 +1,6 @@
 #ifndef COMPONENTUTILS_H
 #define COMPONENTUTILS_H
 
-#include "raylib.h"
 #include "Components.h"
 
 namespace SagardoEngine
@@ -9,7 +8,7 @@ namespace SagardoEngine
     class ComponentUtils
     {
     public:
-        static PositionComponent ToPositionComponent(const Vector3& position)
+        static PositionComponent ToPositionComponent(const glm::vec3& position)
         {
             return PositionComponent
             {
@@ -19,17 +18,15 @@ namespace SagardoEngine
             };
         }
 
-        static Vector3 ToVector3(const PositionComponent& position)
+        static glm::vec3 ToVector3(const PositionComponent& position)
         {
-            return Vector3
-            {
-                .x = position.X,
-                .y = position.Y,
-                .z = position.Z,
-            };
+            return glm::vec3(
+                position.X,
+                position.Y,
+                position.Z);
         }
 
-        static ScaleComponent ToScaleComponent(const Vector3& scale)
+        static ScaleComponent ToScaleComponent(const glm::vec3& scale)
         {
             return ScaleComponent
             {
@@ -39,17 +36,15 @@ namespace SagardoEngine
             };
         }
 
-        static Vector3 ToVector3(const ScaleComponent& scale)
+        static glm::vec3 ToVector3(const ScaleComponent& scale)
         {
-            return Vector3
-            {
-                .x = scale.X,
-                .y = scale.Y,
-                .z = scale.Z,
-            };
+            return glm::vec3(
+                scale.X,
+                scale.Y,
+                scale.Z);
         }
 
-        static RotationEulerComponent ToRotationEulerComponent(const Vector3& eulerAngles)
+        static RotationEulerComponent ToRotationEulerComponent(const glm::vec3& eulerAngles)
         {
             return RotationEulerComponent
             {
@@ -59,14 +54,12 @@ namespace SagardoEngine
             };
         }
 
-        static Vector3 ToVector3(const RotationEulerComponent& eulerAngles)
+        static glm::vec3 ToVector3(const RotationEulerComponent& eulerAngles)
         {
-            return Vector3
-            {
-                .x = eulerAngles.X,
-                .y = eulerAngles.Y,
-                .z = eulerAngles.Z,
-            };
+            return glm::vec3(
+                eulerAngles.X,
+                eulerAngles.Y,
+                eulerAngles.Z);
         }
     };
 }

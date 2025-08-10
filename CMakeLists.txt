@@ -74,8 +74,7 @@ target_link_libraries(${PROJECT_NAME}
 add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
         src/HelloTriangle.cpp
         src/HelloTriangle.h
-        src/VkHelloTriangle.cpp
-        src/VkHelloTriangle.h)
+)
 
 target_link_libraries(DemoExecutable
         PRIVATE
