@@ -60,10 +60,20 @@ int main(void)
 
     const HelloTriangle helloTriangle {};
     const auto scene = SetupScene();
+    scene->Start();
+    
+    float deltaTime = 0;
+    float lastFrame = 0;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
-    {        
+    {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        std::println("deltaTime: {0}", deltaTime);
+        
         /* Render here */
         ProcessInput(window);
 
@@ -72,11 +82,12 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         helloTriangle.Draw();
+        scene->Update(deltaTime);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    
+    scene->Stop();
     glfwTerminate();
     return 0;
 }

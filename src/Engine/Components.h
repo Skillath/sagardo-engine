@@ -38,6 +38,11 @@ namespace SagardoEngine
         unsigned int EBO;
     };
 
+    struct ShaderComponent
+    {
+        unsigned int ShaderProgram;
+    };
+
     struct ModelAnimationComponent
     {
         int AnimationsCount;
