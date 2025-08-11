@@ -4,108 +4,37 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#include "glad/glad.h" 
-#include "GLFW/glfw3.h"
 #include <print>
 
+#include "Application.h"
 #include "ComponentUtils.h"
-#include "HelloTriangle.h"
 #include "Scene.h"
 
 using namespace SagardoEngine;
-
-void OnWindowResized(GLFWwindow* window, int width, int height);
-void ProcessInput(GLFWwindow *window);
 Scene* SetupScene();
 
 int main(void)
-{  
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    
-    /* Create a windowed mode window and its OpenGL context */
-    const auto window = glfwCreateWindow(
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
-        "Hello World",
-        nullptr,
-        nullptr);
-    
-    if (window == nullptr)
+{
+    constexpr ApplicationSettings settings
     {
-        std::println("Failed to create GLFW window");
-        glfwTerminate();
+        .Name = "Hello World",
+        .Width = SCREEN_WIDTH,
+        .Height = SCREEN_HEIGHT,
+    };
+    
+    const Application app(settings, SetupScene());
+    
+    try
+    {
+        return app.Run();
+    }
+    catch(const std::exception& e)
+    {
+        std::println(e.what());
         return -1;
     }
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, OnWindowResized);
-
-    /* glad: load all OpenGL function pointers */
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::println("Failed to initialize GLAD");
-        return -1;
-    }
-
-    const HelloTriangle helloTriangle {};
-    const auto scene = SetupScene();
-    scene->Start();
-    
-    float deltaTime = 0;
-    float lastFrame = 0;
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-
-        std::println("deltaTime: {0}", deltaTime);
-        
-        /* Render here */
-        ProcessInput(window);
-
-        //RENDERING!
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        helloTriangle.Draw();
-        scene->Update(deltaTime);
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    scene->Stop();
-    glfwTerminate();
     return 0;
-}
-
-void OnWindowResized(
-    GLFWwindow* window,
-    const int width,
-    const int height)
-{
-    glViewport(0, 0, width, height);
-}  
-
-void ProcessInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        glfwSetWindowShouldClose(window, true);
-    }
 }
 
 Scene* SetupScene()

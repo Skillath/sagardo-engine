@@ -53,6 +53,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/RendererInitializerSystem.cpp
         src/Engine/RendererInitializerSystem.h
         src/Engine/Renderer/IRenderer.h
+        src/Engine/Application.cpp
+        src/Engine/Application.h
 )
 
 target_include_directories(${PROJECT_NAME}

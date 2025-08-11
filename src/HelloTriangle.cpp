@@ -1,7 +1,3 @@
-//
-// Created by xabi on 15/07/25.
-//
-
 #include "HelloTriangle.h"
 #include <print>
 #include "glad/glad.h"
@@ -24,13 +20,16 @@ HelloTriangle::HelloTriangle()
     
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    float vertices[] = {
+    float vertices[] =
+    {
         0.5f,  0.5f, 0.0f,  // top right
         0.5f, -0.5f, 0.0f,  // bottom right
        -0.5f, -0.5f, 0.0f,  // bottom left
        -0.5f,  0.5f, 0.0f   // top left 
    };
-    unsigned int indices[] = {  // note that we start from 0!
+    
+    unsigned int indices[] =
+    {  // note that we start from 0!
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
     };
@@ -48,6 +47,7 @@ HelloTriangle::HelloTriangle()
         glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n{0}", infoLog);
     }
+    
     // fragment shader
     auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
@@ -59,6 +59,7 @@ HelloTriangle::HelloTriangle()
         glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n{0}", infoLog);
     }
+    
     // link shaders
     _shaderProgram = glCreateProgram();
     glAttachShader(_shaderProgram, vertexShader);
@@ -66,10 +67,13 @@ HelloTriangle::HelloTriangle()
     glLinkProgram(_shaderProgram);
     // check for linking errors
     glGetProgramiv(_shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
+    
+    if (!success)
+    {
         glGetProgramInfoLog(_shaderProgram, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::PROGRAM::LINKING_FAILED\n{0}", infoLog);
     }
+    
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     
