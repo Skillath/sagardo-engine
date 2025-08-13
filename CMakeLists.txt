@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26...3.31.6)
 project(
-        CiderEngine 
+        SagardoEngine 
         VERSION 0.0.1
         LANGUAGES C CXX)
 
@@ -54,6 +54,10 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/RendererInitializerSystem.h
         src/Engine/Application.cpp
         src/Engine/Application.h
+        src/Engine/Shader.cpp
+        src/Engine/Shader.h
+        src/Engine/TimeProvider.cpp
+        src/Engine/TimeProvider.h
 )
 
 target_include_directories(${PROJECT_NAME}
