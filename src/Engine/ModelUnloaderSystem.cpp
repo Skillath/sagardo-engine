@@ -1,11 +1,26 @@
-//
-// Created by xabi on 7/07/25.
-//
-
 #include "ModelUnloaderSystem.h"
-#include "Components.h"
 
-void SagardoEngine::ModelUnloaderSystem::Run(flecs::world& world, float deltaTime)
+#include "Components.h"
+#include "glad/glad.h"
+
+using namespace SagardoEngine;
+
+void ModelUnloaderSystem::Run(
+    flecs::world& world,
+    const float deltaTime)
 {
-    
+    world
+        .system<
+            const MeshComponent,
+            const ShaderComponent>()
+        .each([](
+            const MeshComponent& mesh,
+            const ShaderComponent& shader)
+        {
+            glDeleteVertexArrays(1, &mesh.VAO);
+            glDeleteBuffers(1, &mesh.VBO);
+            glDeleteBuffers(1, &mesh.EBO);
+            glDeleteProgram(shader.ShaderProgram);
+        })
+        .run(deltaTime);
 }

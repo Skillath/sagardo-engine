@@ -10,7 +10,7 @@ GameObject::GameObject(
 {
     _name = name;
     _world = world;
-    
+       
     _entity.AddComponent<PositionComponent>(
     {
         .X = 0,

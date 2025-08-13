@@ -2,9 +2,6 @@
 
 #include <print>
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-
 using namespace SagardoEngine;
 
 Application::Application(
@@ -17,7 +14,6 @@ Application::Application(
 
 int Application::Run() const
 {
-    /* Initialize the library */
     if (!glfwInit())
     {
         std::println("Failed to initialize GLFW!");

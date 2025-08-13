@@ -18,8 +18,7 @@ namespace SagardoEngine::Ecs
         ~Entity();
 
         void Destroy() const;
-
-
+        
         template<typename T>
         void AddComponent(T component) const
         {

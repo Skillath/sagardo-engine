@@ -1,7 +1,6 @@
-#include "World.h"
-
 #include <stdexcept>
 
+#include "World.h"
 #include "ISystem.h"
 
 using namespace SagardoEngine::Ecs;
@@ -27,7 +26,7 @@ void World::DestroyEntity(const Entity& entity)
     entity.Destroy();
 }
 
-void World::RunSystem(ISystem& system, float deltaTime)
+void World::RunSystem(ISystem& system, const float deltaTime)
 {
     system.Run(_world, deltaTime);
 }

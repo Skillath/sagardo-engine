@@ -46,6 +46,7 @@ HelloTriangle::HelloTriangle()
     {
         glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n{0}", infoLog);
+        return;
     }
     
     // fragment shader
@@ -58,6 +59,7 @@ HelloTriangle::HelloTriangle()
     {
         glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n{0}", infoLog);
+        return;
     }
     
     // link shaders
@@ -72,6 +74,7 @@ HelloTriangle::HelloTriangle()
     {
         glGetProgramInfoLog(_shaderProgram, 512, nullptr, infoLog);
         std::println("ERROR::SHADER::PROGRAM::LINKING_FAILED\n{0}", infoLog);
+        return;
     }
     
     glDeleteShader(vertexShader);

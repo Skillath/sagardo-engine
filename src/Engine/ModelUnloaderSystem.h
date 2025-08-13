@@ -13,6 +13,4 @@ namespace SagardoEngine
     
 }
 
-
-
 #endif //MODELUNLOADERSYSTEM_H
