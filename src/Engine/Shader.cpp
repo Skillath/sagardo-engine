@@ -5,11 +5,11 @@
 
 #include "glad/glad.h"
 
-using namespace SagardoEngine;
-
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+namespace SagardoEngine
 {
-    // 1. retrieve the vertex/fragment source code from filePath
+    Shader::Shader(const char* vertexPath, const char* fragmentPath)
+    {
+        // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
         std::string fragmentCode;
         std::ifstream vShaderFile;
@@ -62,55 +62,56 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
-}
-
-Shader::~Shader()
-{
-    glDeleteProgram(_id);
-}
-
-void Shader::Use() const
-{
-    glUseProgram(_id);
-}
-
-// utility uniform functions
-// ------------------------------------------------------------------------
-void Shader::SetBool(const std::string& name, const bool value) const
-{         
-    glUniform1i(glGetUniformLocation(_id, name.c_str()), (int)value); 
-}
-// ------------------------------------------------------------------------
-void Shader::SetInt(const std::string& name, const int value) const
-{ 
-    glUniform1i(glGetUniformLocation(_id, name.c_str()), value); 
-}
-// ------------------------------------------------------------------------
-void Shader::SetFloat(const std::string& name, const float value) const
-{ 
-    glUniform1f(glGetUniformLocation(_id, name.c_str()), value); 
-}
-
-void Shader::CheckCompileErrors(const unsigned int shader, const std::string& type)
-{
-    int success;
-    char infoLog[1024];
-    if (type != "PROGRAM")
-    {
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-            std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-        }
     }
-    else
+
+    Shader::~Shader()
     {
-        glGetProgramiv(shader, GL_LINK_STATUS, &success);
-        if (!success)
+        glDeleteProgram(_id);
+    }
+
+    void Shader::Use() const
+    {
+        glUseProgram(_id);
+    }
+
+    // utility uniform functions
+    // ------------------------------------------------------------------------
+    void Shader::SetBool(const std::string& name, const bool value) const
+    {         
+        glUniform1i(glGetUniformLocation(_id, name.c_str()), (int)value); 
+    }
+    // ------------------------------------------------------------------------
+    void Shader::SetInt(const std::string& name, const int value) const
+    { 
+        glUniform1i(glGetUniformLocation(_id, name.c_str()), value); 
+    }
+    // ------------------------------------------------------------------------
+    void Shader::SetFloat(const std::string& name, const float value) const
+    { 
+        glUniform1f(glGetUniformLocation(_id, name.c_str()), value); 
+    }
+
+    void Shader::CheckCompileErrors(const unsigned int shader, const std::string& type)
+    {
+        int success;
+        char infoLog[1024];
+        if (type != "PROGRAM")
         {
-            glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
-            std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+            if (!success)
+            {
+                glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
+                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            }
+        }
+        else
+        {
+            glGetProgramiv(shader, GL_LINK_STATUS, &success);
+            if (!success)
+            {
+                glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
+                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            }
         }
     }
 }

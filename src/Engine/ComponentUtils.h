@@ -2,6 +2,7 @@
 #define COMPONENTUTILS_H
 
 #include "Components.h"
+#include <glm/glm.hpp>
 
 namespace SagardoEngine
 {

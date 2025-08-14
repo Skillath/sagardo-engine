@@ -16,7 +16,7 @@ namespace SagardoEngine
 
         public:
             GameObject(
-                const char *name,
+                const char* name, 
                 Ecs::World* world);
 
             ~GameObject();

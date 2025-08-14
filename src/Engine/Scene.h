@@ -11,7 +11,10 @@
 
 namespace SagardoEngine 
 {
-    class Scene final : public IStartable, public IUpdatable, public IStopable
+    class Scene final :
+        public IStartable,
+        public IUpdatable,
+        public IStopable
     {     
         private:
             const char* _name;

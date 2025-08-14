@@ -1,8 +1,6 @@
 #ifndef TIMEPROVIDER_H
 #define TIMEPROVIDER_H
 
-#include "GLFW/glfw3.h"
-
 namespace SagardoEngine
 {
     class TimeProvider 
@@ -12,22 +10,10 @@ namespace SagardoEngine
         static double _lastFrameTime;
         
     public:
-        static double GetTime()
-        {
-            return glfwGetTime();
-        }
-
-        static double GetDeltaTime()
-        {
-            return _deltaTime;
-        }
-
-        static void UpdateDeltaTime()
-        {
-            const auto currentFrame = GetTime();
-            _deltaTime = currentFrame - _lastFrameTime;
-            _lastFrameTime = currentFrame;
-        }
+        static double GetTime();
+        static double GetDeltaTime();
+        static void UpdateDeltaTime();
+        static void Reset(); // call once after glfwInit()
     };
 }
 #endif //TIMEPROVIDER_H

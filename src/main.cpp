@@ -41,12 +41,10 @@ int main(void)
 
 Scene* SetupScene()
 {
-    auto gameContextScene = new Scene("NewScene");
+    const auto gameContextScene = new Scene("NewScene");
 
     auto go = gameContextScene->NewGameObject("Triangle");
     go->AddComponent<TriangleComponent>(SetupTriangle());
-    
-    return gameContextScene;
 
     for (auto i = 0; i < 1; i++)
     {
@@ -55,31 +53,13 @@ Scene* SetupScene()
         {
             .Path = "/res/models/Fox.glb",
         });
-    
-        //modelGameObject->AddComponent<ModelComponent>({ });
-        modelGameObject->AddComponent<ModelAnimationComponent>({ });
+        
         modelGameObject->AddComponent<PositionComponent>({
             .X = i * 2.f,
             .Y = 0,
             .Z = i * 1.f,
         });
     }
-
-    auto cameraObject = gameContextScene->NewGameObject("Camera");
-    cameraObject->AddComponent<CameraComponent>(
-    {
-        .Fov = 45.f,
-        .Target = glm::vec3{0, 10, 0},
-        .Up = glm::vec3{0, 1, 0},
-        //.Projection = CAMERA_PERSPECTIVE,
-    });
-    
-    cameraObject->AddComponent<PositionComponent>(
-    {
-        .X = 50.f,
-        .Y = 50.f,
-        .Z = 50.f,
-    });
 
     return gameContextScene;
 }
@@ -88,36 +68,23 @@ TriangleComponent SetupTriangle()
 {
     return TriangleComponent
     {
-        .VertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0",
-    
-        .FragmentShaderSource = "#version 330 core\n"
-            "out vec4 FragColor;\n"
-            "void main()\n"
-            "{\n"
-            "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0",
-        // set up vertex data (and buffer(s)) and configure vertex attributes
-        // ------------------------------------------------------------------
-        .Vertices = new float [12]
+        .Vertices = new float[18]
         {
-            0.5f,  0.5f, 0.0f,  // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-           -0.5f, -0.5f, 0.0f,  // bottom left
-           -0.5f,  0.5f, 0.0f   // top left 
+            // positions         // colors
+            0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+           -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+            0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
         },
 
-        .NumVertices = sizeof(float[12]),
+        .VerticesSize = sizeof(float[18]),
         .Indices = new unsigned int[6]
         {  // note that we start from 0!
             0, 1, 3,  // first Triangle
             1, 2, 3   // second Triangle
         },
-        .NumIndices = sizeof(unsigned int[6]),
+        .IndicesSize = sizeof(unsigned int[6]),
+        .FragmentShaderPath = "res/shaders/color.frag",
+        .VertexShaderPath = "res/shaders/color.vert",
     };
 }
 #endif
