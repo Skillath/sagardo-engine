@@ -26,9 +26,10 @@ int main(void)
     
     const Application app(settings, SetupScene());
     
+    int result = 0;
     try
     {
-        return app.Run();
+        result = app.Run();
     }
     catch(const std::exception& e)
     {
@@ -36,7 +37,7 @@ int main(void)
         return -1;
     }
 
-    return 0;
+    return result;
 }
 
 Scene* SetupScene()

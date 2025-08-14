@@ -30,6 +30,11 @@ namespace SagardoEngine
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+#ifndef NDEBUG
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
+
+
         /* Create a windowed mode window and its OpenGL context */
         const auto window = glfwCreateWindow(
             _settings.Width,
@@ -55,6 +60,14 @@ namespace SagardoEngine
             std::println("Failed to initialize GLAD");
             return -1;
         }
+
+        // Optional: at startup print device info
+        std::fprintf(stderr, "GL %s | %s | %s\n",
+            reinterpret_cast<const char*>(glGetString(GL_VERSION)),
+            reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+            reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+
+        TimeProvider::Reset();
     
         _initialScene->Start();
 
@@ -62,7 +75,7 @@ namespace SagardoEngine
         while (!glfwWindowShouldClose(window))
         {
             TimeProvider::UpdateDeltaTime();
-            auto deltaTime = TimeProvider::GetDeltaTime();
+            auto deltaTime = (float)TimeProvider::GetDeltaTime();
 
             std::println("deltaTime: {0}", deltaTime);
         

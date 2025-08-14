@@ -58,6 +58,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/Shader.h
         src/Engine/TimeProvider.cpp
         src/Engine/TimeProvider.h
+        src/Engine/IO/File.cpp
+        src/Engine/IO/File.h
 )
 
 target_include_directories(${PROJECT_NAME}

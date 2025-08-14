@@ -35,7 +35,7 @@ namespace SagardoEngine
 
     struct ShaderComponent
     {
-        const unsigned int ShaderProgram;
+        unsigned int ShaderProgram;
     };
 
     template<typename T>
