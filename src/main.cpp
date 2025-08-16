@@ -98,6 +98,7 @@ TriangleComponent SetupTriangle()
         },
         .TextCoordsSize = sizeof(float[6]),
         .WrappingOptions = GL_REPEAT,
+        .AwesomeFaceTexturePath = "src/res/textures/awesomeface.png",
     };
 }
 #endif

@@ -95,7 +95,6 @@ namespace SagardoEngine
                 glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
                 glEnableVertexAttribArray(2);
                 
-                
                 // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
                 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
                 
@@ -108,10 +107,17 @@ namespace SagardoEngine
                 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
                 const auto texture = GlTextureLoader::LoadTextureFromFile(triangle.TexturePath, false);
-                TextureComponent textureComponent
+                const auto awesomeFaceTexture = GlTextureLoader::LoadTextureFromFile(triangle.AwesomeFaceTexturePath, false);
+                
+                const TextureComponent textureComponent
                 {
-                    .TextureId = texture.Id
+                    .TextureId = texture.Id,
+                    .Texture0Id = awesomeFaceTexture.Id,
                 };
+
+                glUseProgram(shader.ShaderProgramId);
+                glUniform1i(glGetUniformLocation(shader.ShaderProgramId, "texture1"), 0); 
+                glUniform1i(glGetUniformLocation(shader.ShaderProgramId, "texture2"), 1);
                 
                 
                 entity.set<MeshComponent>(mesh);

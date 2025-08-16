@@ -65,6 +65,7 @@ namespace SagardoEngine
     struct TextureComponent
     {
         unsigned int TextureId;
+        unsigned int Texture0Id;
     };
 
     struct TriangleComponent
@@ -79,6 +80,7 @@ namespace SagardoEngine
         const float* TextCoords;
         unsigned int TextCoordsSize;
         int WrappingOptions;
+        const char* AwesomeFaceTexturePath;
     };
     
 }
