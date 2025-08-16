@@ -1,13 +1,15 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include <filesystem>
 #include <string>
 
 namespace SagardoEngine::IO
 {
     struct File
     {
-        static std::string ReadFile(const std::string& path);
+        static std::string ReadAllText(const std::filesystem::path& path);
+        static std::byte* LoadAllBytes(const std::filesystem::path& path);
     };
 }
 

@@ -70,6 +70,15 @@ FetchContent_Declare(
         GIT_PROGRESS TRUE
 )
 
+
+# Grab the stb repo (pin a commit for reproducible builds).
+FetchContent_Declare(
+        stb
+        GIT_REPOSITORY https://github.com/nothings/stb.git
+        GIT_TAG master       # TODO: pin a commit hash you trust
+        GIT_SHALLOW TRUE
+)
+
 FetchContent_MakeAvailable(flecs)
 FetchContent_MakeAvailable(glfw)
 FetchContent_MakeAvailable(assimp)
@@ -77,6 +86,7 @@ FetchContent_MakeAvailable(zlib)
 FetchContent_MakeAvailable(glm)
 FetchContent_MakeAvailable(freetype)
 FetchContent_MakeAvailable(JoltPhysics)
+FetchContent_MakeAvailable(stb)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -105,8 +115,15 @@ add_library(Freetype::Freetype ALIAS freetype)
 add_library(glad STATIC
         ${CMAKE_CURRENT_LIST_DIR}/glad/src/glad.c
 )
-target_include_directories(glad PUBLIC ${CMAKE_CURRENT_LIST_DIR}/glad/include)
 
+target_include_directories(
+        glad PUBLIC ${CMAKE_CURRENT_LIST_DIR}/glad/include)
+
+# 3.2 Build a small lib that owns STB_IMAGE_IMPLEMENTATION
+add_library(stb_image STATIC ${CMAKE_CURRENT_LIST_DIR}/stb/stb_image_impl.cpp)
+# Expose the fetched include path to dependents
+target_include_directories(stb_image PUBLIC ${stb_SOURCE_DIR})
+# (We already defined STB_IMAGE_IMPLEMENTATION inside the TU; nothing here.)
 
 #======================================
 message(STATUS "Fetching third party libraries done")

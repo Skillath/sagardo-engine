@@ -33,8 +33,7 @@ namespace SagardoEngine
 #ifndef NDEBUG
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-
-
+        
         /* Create a windowed mode window and its OpenGL context */
         const auto window = glfwCreateWindow(
             _settings.Width,
@@ -76,8 +75,6 @@ namespace SagardoEngine
         {
             TimeProvider::UpdateDeltaTime();
             auto deltaTime = (float)TimeProvider::GetDeltaTime();
-
-            std::println("deltaTime: {0}", deltaTime);
         
             /* Render here */
             ProcessInput(window);

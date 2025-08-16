@@ -6,9 +6,8 @@
 
 namespace SagardoEngine
 {
-    class ComponentUtils
+    struct ComponentUtils
     {
-    public:
         static PositionComponent ToPositionComponent(const glm::vec3& position)
         {
             return PositionComponent

@@ -60,6 +60,10 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/TimeProvider.h
         src/Engine/IO/File.cpp
         src/Engine/IO/File.h
+        src/Engine/Physics/PhysicsEngineInitializerSystem.cpp
+        src/Engine/Physics/PhysicsEngineInitializerSystem.h
+        src/Engine/GlTextureLoader.cpp
+        src/Engine/GlTextureLoader.h
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -74,6 +78,7 @@ target_link_libraries(${PROJECT_NAME}
         glm
         Jolt
         glad
+        stb_image
         ${PROJECT_NAME}_ecs
 )
 
@@ -115,4 +120,10 @@ else()
   set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${GLAD_CUSTOM_OUTPUT_RELEASE}")
   set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${GLAD_CUSTOM_OUTPUT_MINSIZEREL}")
   set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${GLAD_CUSTOM_OUTPUT_RELWITHDEBINFO}")
+endif()
+
+if (MSVC)
+  target_compile_options(SagardoEngine PRIVATE /W4 /permissive-)
+else()
+  target_compile_options(SagardoEngine PRIVATE -Wall -Wextra -Wpedantic)
 endif()

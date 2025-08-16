@@ -1,7 +1,6 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
-#include "Shader.h"
 
 namespace SagardoEngine
 {    
@@ -65,9 +64,7 @@ namespace SagardoEngine
 
     struct TextureComponent
     {
-        const float* TextCoords;
-        const unsigned int TextCoordsSize;
-        const int WrappingOptions;
+        unsigned int TextureId;
     };
 
     struct TriangleComponent
@@ -78,6 +75,10 @@ namespace SagardoEngine
         unsigned int IndicesSize;
         const char* FragmentShaderPath;
         const char* VertexShaderPath;
+        const char* TexturePath;
+        const float* TextCoords;
+        unsigned int TextCoordsSize;
+        int WrappingOptions;
     };
     
 }

@@ -1,10 +1,10 @@
 #include "RendererInitializerSystem.h"
 
 #include <print>
-
 #include "IO/File.h"
 #include "Components.h"
 #include "Entity.h"
+#include "GlTextureLoader.h"
 #include "glad/glad.h"
 
 namespace SagardoEngine
@@ -20,9 +20,7 @@ namespace SagardoEngine
                 const flecs::entity entity,
                 const TriangleComponent& triangle)
             {
-                MeshComponent mesh{};
-
-                auto vertexShaderSource = IO::File::ReadFile("src/res/shaders/color.vert");
+                auto vertexShaderSource = IO::File::ReadAllText("src/res/shaders/color.vert");
                 auto vertexShaderSourceStr = vertexShaderSource.c_str();
                 auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
                 
@@ -41,7 +39,7 @@ namespace SagardoEngine
                 
                 // fragment shader
                 auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-                auto fragmentShaderSource = IO::File::ReadFile("src/res/shaders/color.frag");
+                auto fragmentShaderSource = IO::File::ReadAllText("src/res/shaders/color.frag");
                 auto fragmentShaderSourceStr = fragmentShaderSource.c_str();
                 glShaderSource(fragmentShader, 1, &fragmentShaderSourceStr, nullptr);
                 glCompileShader(fragmentShader);
@@ -71,6 +69,8 @@ namespace SagardoEngine
                 
                 glDeleteShader(vertexShader);
                 glDeleteShader(fragmentShader);
+
+                MeshComponent mesh {};
                 
                 glGenVertexArrays(1, &mesh.VAO);
                 glGenBuffers(1, &mesh.VBO);
@@ -83,29 +83,42 @@ namespace SagardoEngine
                 
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
                 glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangle.IndicesSize, triangle.Indices, GL_STATIC_DRAW);
+
                 
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+                // position attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
                 glEnableVertexAttribArray(0);
+                // color attribute
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+                glEnableVertexAttribArray(1);
+                // texture coord attribute
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+                glEnableVertexAttribArray(2);
                 
-                // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-                glBindBuffer(GL_ARRAY_BUFFER, 0); 
                 
                 // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
                 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
                 
                 // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
                 // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-                glBindVertexArray(0); 
+                //glBindVertexArray(0); 
                 
                 
                 // uncomment this call to draw in wireframe polygons.
                 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+                const auto texture = GlTextureLoader::LoadTextureFromFile(triangle.TexturePath, false);
+                TextureComponent textureComponent{};
+                textureComponent.TextureId = texture.Id;
+                
                 
                 entity.set<MeshComponent>(mesh);
                 entity.set<ShaderComponent>(shader);
+                entity.set<TextureComponent>(textureComponent);
+                
                 
                 entity.remove<TriangleComponent>();
             })
-            .run(deltaTime);
+            .run();
     }
 }

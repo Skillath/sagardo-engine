@@ -1,19 +1,43 @@
 #include "File.h"
 
 #include <fstream>
+#include <iostream>
 #include <sstream>
-#include <stdexcept>
 
 namespace SagardoEngine::IO
 {
-    std::string File::ReadFile(const std::string& path)
+    std::string File::ReadAllText(const std::filesystem::path& path)
     {
-        std::ifstream in(path, std::ios::in | std::ios::binary);
-        if (!in)
-            throw std::runtime_error("Failed to open: " + path);
+        std::string data;
+        std::ifstream fileToRead;
+        fileToRead.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+        try 
+        {
+            // open files
+            fileToRead.open(path.string());
+            
+            std::stringstream stream;
+            // read file's buffer contents into streams
+            stream << fileToRead.rdbuf();
+            // close file handlers
+            fileToRead.close();
+            // convert stream into string
+            data = stream.str();
+
+            stream.clear();
+        }
+        catch (std::ifstream::failure& e)
+        {
+            std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+            throw e;
+        }
         
-        std::ostringstream ss;
-        ss << in.rdbuf();                  // read whole file
-        return ss.str();  
+        return data;  
+    }
+
+    std::byte* File::LoadAllBytes(const std::filesystem::path& path)
+    {
+        throw std::runtime_error("Not implemented");
     }
 }
