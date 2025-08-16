@@ -38,9 +38,9 @@ namespace SagardoEngine
                 }
                 
                 // fragment shader
-                auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-                auto fragmentShaderSource = IO::File::ReadAllText("src/res/shaders/color.frag");
-                auto fragmentShaderSourceStr = fragmentShaderSource.c_str();
+                const auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+                const auto fragmentShaderSource = IO::File::ReadAllText("src/res/shaders/color.frag");
+                const auto fragmentShaderSourceStr = fragmentShaderSource.c_str();
                 glShaderSource(fragmentShader, 1, &fragmentShaderSourceStr, nullptr);
                 glCompileShader(fragmentShader);
                 // check for shader compile errors
@@ -54,15 +54,15 @@ namespace SagardoEngine
                 
                 // link shaders
                 const ShaderComponent shader(glCreateProgram());
-                glAttachShader(shader.ShaderProgram, vertexShader);
-                glAttachShader(shader.ShaderProgram, fragmentShader);
-                glLinkProgram(shader.ShaderProgram);
+                glAttachShader(shader.ShaderProgramId, vertexShader);
+                glAttachShader(shader.ShaderProgramId, fragmentShader);
+                glLinkProgram(shader.ShaderProgramId);
                 // check for linking errors
-                glGetProgramiv(shader.ShaderProgram, GL_LINK_STATUS, &success);
+                glGetProgramiv(shader.ShaderProgramId, GL_LINK_STATUS, &success);
                 
                 if (!success)
                 {
-                    glGetProgramInfoLog(shader.ShaderProgram, 512, nullptr, infoLog);
+                    glGetProgramInfoLog(shader.ShaderProgramId, 512, nullptr, infoLog);
                     std::println("ERROR::SHADER::PROGRAM::LINKING_FAILED\n{0}", infoLog);
                     return;
                 }
@@ -72,16 +72,16 @@ namespace SagardoEngine
 
                 MeshComponent mesh {};
                 
-                glGenVertexArrays(1, &mesh.VAO);
-                glGenBuffers(1, &mesh.VBO);
-                glGenBuffers(1, &mesh.EBO);
+                glGenVertexArrays(1, &mesh.VertexArrayObject);
+                glGenBuffers(1, &mesh.VertexBufferObject);
+                glGenBuffers(1, &mesh.ElementBufferObject);
                 // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-                glBindVertexArray(mesh.VAO);
+                glBindVertexArray(mesh.VertexArrayObject);
                 
-                glBindBuffer(GL_ARRAY_BUFFER, mesh.VBO);
+                glBindBuffer(GL_ARRAY_BUFFER, mesh.VertexBufferObject);
                 glBufferData(GL_ARRAY_BUFFER, triangle.VerticesSize, triangle.Vertices, GL_STATIC_DRAW);
                 
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.ElementBufferObject);
                 glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangle.IndicesSize, triangle.Indices, GL_STATIC_DRAW);
 
                 
@@ -108,8 +108,10 @@ namespace SagardoEngine
                 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
                 const auto texture = GlTextureLoader::LoadTextureFromFile(triangle.TexturePath, false);
-                TextureComponent textureComponent{};
-                textureComponent.TextureId = texture.Id;
+                TextureComponent textureComponent
+                {
+                    .TextureId = texture.Id
+                };
                 
                 
                 entity.set<MeshComponent>(mesh);

@@ -27,14 +27,14 @@ namespace SagardoEngine
 
     struct MeshComponent
     {
-        unsigned int VAO;
-        unsigned int VBO;
-        unsigned int EBO;
+        unsigned int VertexArrayObject;
+        unsigned int VertexBufferObject;
+        unsigned int ElementBufferObject;
     };
 
     struct ShaderComponent
     {
-        unsigned int ShaderProgram;
+        unsigned int ShaderProgramId;
     };
 
     template<typename T>

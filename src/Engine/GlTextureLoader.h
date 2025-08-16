@@ -19,10 +19,10 @@ namespace SagardoEngine
     struct GlTextureLoader
     {
         static GLTexture CreateGlTexture(
-            const unsigned char* data,
+            const std::byte* data,
             const unsigned int width,
             const unsigned int height,
-            const bool srgb,
+            const bool isSrgb,
             const GLenum srcFmt);
 
         static GLTexture LoadTextureFromFile(

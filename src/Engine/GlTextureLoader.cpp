@@ -7,10 +7,10 @@
 namespace SagardoEngine
 {
     GLTexture GlTextureLoader::CreateGlTexture(
-        const unsigned char* data,
+        const std::byte* data,
         const unsigned int width,
         const unsigned int height,
-        const bool srgb,
+        const bool isSrgb,
         const GLenum srcFmt)
     {
         GLTexture texture{};
@@ -29,13 +29,13 @@ namespace SagardoEngine
         }
         else if (srcFmt == GL_RGB)
         {
-            internal = srgb
+            internal = isSrgb
                 ? GL_SRGB8
                 : GL_RGB8;
         }
         else if (srcFmt == GL_RGBA)
         {
-            internal = srgb
+            internal = isSrgb
                 ? GL_SRGB8_ALPHA8
                 : GL_RGBA8;
         }
@@ -58,14 +58,14 @@ namespace SagardoEngine
         int channels = 0;
         stbi_set_flip_vertically_on_load(true); // flip if your UVs expect it
         
-        unsigned char* pixels = stbi_load(
+        const auto pixels = (std::byte*)stbi_load(
             path.string().c_str(),
             &width,
             &height,
             &channels,
             0);
 
-        if (!pixels)
+        if (pixels == nullptr)
         {
             std::fprintf(stderr, "stb_image: failed to load %s\n", path.string().c_str());
             std::exit(EXIT_FAILURE);
