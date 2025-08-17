@@ -10,14 +10,20 @@ namespace SagardoEngine::Ecs
         _world.release();
     }
 
-    Entity World::CreateEntity()
+    Entity World::CreateEntity(const std::string_view& name) const
     {
         const auto entity = _world.entity();
+
+        if (!name.empty())
+        {
+            entity.set_name(name.data());
+        }
             
         return Entity
         {
             entity,
-            &_world,
+            _world,
+            entity.name().c_str(),
         };
     }
 

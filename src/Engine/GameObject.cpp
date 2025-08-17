@@ -1,16 +1,19 @@
 #include "GameObject.h"
-#include "Components.h"
+
 #include <print>
+
+#include "Components.h"
+#include "ComponentUtils.h"
 
 namespace SagardoEngine
 {
     GameObject::GameObject(
-        const char *name,
-        Ecs::World* world) : _entity(world->CreateEntity())
+        const std::string_view& name,
+        const Ecs::World* world) :
+        _entity(world->CreateEntity(name)),
+        _name(name)
     {
         assert(world != nullptr);
-    
-        _name = name;
         _world = world;
        
         _entity.AddComponent<PositionComponent>(
@@ -26,12 +29,13 @@ namespace SagardoEngine
             .Y = 1,
             .Z = 1,
         });
-
-        _entity.AddComponent<RotationEulerComponent>(
+        
+        _entity.AddComponent<RotationComponent>(
         {
             .X = 0,
             .Y = 0,
             .Z = 0,
+            .W = 1,
         });
 
         std::println("GameObject created {0}!", name);
@@ -42,8 +46,6 @@ namespace SagardoEngine
         std::println("GameObject Destroyed {0}!", _name);
     
         _entity.Destroy();
-    
-        _name = nullptr;
         _world = nullptr;
     }
 }

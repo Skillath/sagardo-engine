@@ -4,6 +4,9 @@
 #include "Components.h"
 #include <glm/glm.hpp>
 
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace SagardoEngine
 {
     struct ComponentUtils
@@ -44,22 +47,54 @@ namespace SagardoEngine
                 scale.Z);
         }
 
-        static RotationEulerComponent ToRotationEulerComponent(const glm::vec3& eulerAngles)
+        
+        static glm::quat ToQuaternion(const RotationComponent& rotation)
         {
-            return RotationEulerComponent
+            return glm::quat(
+                rotation.W,
+                rotation.X,
+                rotation.Y,
+                rotation.Z);
+        }
+
+        static RotationComponent ToRotationComponent(const glm::quat& rotation)
+        {
+            return RotationComponent
             {
-                .X = eulerAngles.x,
-                .Y = eulerAngles.y,
-                .Z = eulerAngles.z,
+                .X = rotation.x,
+                .Y = rotation.y,
+                .Z = rotation.z,
+                .W = rotation.w,
             };
         }
 
-        static glm::vec3 ToVector3(const RotationEulerComponent& eulerAngles)
+        static RotationComponent IdentityRotationComponent()
         {
-            return glm::vec3(
-                eulerAngles.X,
-                eulerAngles.Y,
-                eulerAngles.Z);
+            return ToRotationComponent(glm::identity<glm::quat>());
+        }
+
+        static glm::mat4 ToModelMatrix(
+            const PositionComponent& positionComponent,
+            const RotationComponent& rotationComponent,
+            const ScaleComponent& scaleComponent)
+        {
+            const auto T = glm::translate(glm::mat4(1.f), ToVector3(positionComponent));
+            const auto R = glm::mat4_cast(ToQuaternion(rotationComponent));
+            const auto S = glm::scale(glm::mat4(1.f), ToVector3(scaleComponent));
+            
+            return T * R * S; 
+        }
+
+        static glm::quat EulerXYZDegToQuat(
+            const float x,
+            const float y,
+            const float z)
+        {
+            const auto r = glm::radians(glm::vec3{x, y, z});
+            const auto qx = glm::angleAxis(r.x, glm::vec3{1.f,0.f,0.f});
+            const auto qy = glm::angleAxis(r.y, glm::vec3{0.f,1.f,0.f});
+            const auto qz = glm::angleAxis(r.z, glm::vec3{0.f,0.f,1.f});
+            return glm::normalize(qz * qy * qx); // X then Y then Z
         }
     };
 }

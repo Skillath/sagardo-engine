@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <print>
 
 #include "Scene.h"
@@ -8,7 +7,7 @@
 
 namespace SagardoEngine
 {
-    Scene::Scene(const char *name)
+    Scene::Scene(const std::string_view& name)
         : _name(name)
     {
         _world = new Ecs::World();
@@ -25,7 +24,6 @@ namespace SagardoEngine
         _gameObjects.clear();
 
         std::println("New Scene deleted {0}!", _name);
-        _name = nullptr;
     
         delete _world;
         _world = nullptr;

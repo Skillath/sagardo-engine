@@ -5,6 +5,7 @@
 #include "Components.h"
 #include "Entity.h"
 #include "GlTextureLoader.h"
+#include "Shader.h"
 #include "glad/glad.h"
 
 namespace SagardoEngine
@@ -20,56 +21,12 @@ namespace SagardoEngine
                 const flecs::entity entity,
                 const TriangleComponent& triangle)
             {
-                auto vertexShaderSource = IO::File::ReadAllText("src/res/shaders/color.vert");
-                auto vertexShaderSourceStr = vertexShaderSource.c_str();
-                auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
+                const Shader shaderProgram(
+                    triangle.VertexShaderPath,
+                    triangle.FragmentShaderPath);
                 
-                glShaderSource(vertexShader, 1, &vertexShaderSourceStr, nullptr);
-                glCompileShader(vertexShader);
-                // check for shader compile errors
-                int success;
-                char infoLog[512];
-                glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-                if (!success)
-                {
-                    glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-                    std::println("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n{0}", infoLog);
-                    return;
-                }
+                const ShaderComponent shader(shaderProgram.GetId());
                 
-                // fragment shader
-                const auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-                const auto fragmentShaderSource = IO::File::ReadAllText("src/res/shaders/color.frag");
-                const auto fragmentShaderSourceStr = fragmentShaderSource.c_str();
-                glShaderSource(fragmentShader, 1, &fragmentShaderSourceStr, nullptr);
-                glCompileShader(fragmentShader);
-                // check for shader compile errors
-                glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-                if (!success)
-                {
-                    glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-                    std::println("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n{0}", infoLog);
-                    return;
-                }
-                
-                // link shaders
-                const ShaderComponent shader(glCreateProgram());
-                glAttachShader(shader.ShaderProgramId, vertexShader);
-                glAttachShader(shader.ShaderProgramId, fragmentShader);
-                glLinkProgram(shader.ShaderProgramId);
-                // check for linking errors
-                glGetProgramiv(shader.ShaderProgramId, GL_LINK_STATUS, &success);
-                
-                if (!success)
-                {
-                    glGetProgramInfoLog(shader.ShaderProgramId, 512, nullptr, infoLog);
-                    std::println("ERROR::SHADER::PROGRAM::LINKING_FAILED\n{0}", infoLog);
-                    return;
-                }
-                
-                glDeleteShader(vertexShader);
-                glDeleteShader(fragmentShader);
-
                 MeshComponent mesh {};
                 
                 glGenVertexArrays(1, &mesh.VertexArrayObject);
@@ -83,17 +40,13 @@ namespace SagardoEngine
                 
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.ElementBufferObject);
                 glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangle.IndicesSize, triangle.Indices, GL_STATIC_DRAW);
-
                 
                 // position attribute
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
                 glEnableVertexAttribArray(0);
-                // color attribute
-                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-                glEnableVertexAttribArray(1);
                 // texture coord attribute
-                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-                glEnableVertexAttribArray(2);
+                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+                glEnableVertexAttribArray(1);
                 
                 // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
                 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -114,18 +67,16 @@ namespace SagardoEngine
                     .TextureId = texture.Id,
                     .Texture0Id = awesomeFaceTexture.Id,
                 };
-
-                glUseProgram(shader.ShaderProgramId);
-                glUniform1i(glGetUniformLocation(shader.ShaderProgramId, "texture1"), 0); 
-                glUniform1i(glGetUniformLocation(shader.ShaderProgramId, "texture2"), 1);
                 
+                shaderProgram.Use();
+                shaderProgram.SetInt("texture1", 0);
+                shaderProgram.SetInt("texture2", 1);
                 
-                entity.set<MeshComponent>(mesh);
-                entity.set<ShaderComponent>(shader);
-                entity.set<TextureComponent>(textureComponent);
-                
-                
-                entity.remove<TriangleComponent>();
+                entity
+                    .set<MeshComponent>(mesh)
+                    .set<TextureComponent>(textureComponent)
+                    .set<ShaderComponent>(shader)
+                    .remove<TriangleComponent>();
             })
             .run();
     }

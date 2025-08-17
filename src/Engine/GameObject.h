@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
+#include <string>
+
 #include "ECS/Entity.h"
 #include "ECS/World.h"
 
@@ -9,15 +11,15 @@ namespace SagardoEngine
     class GameObject
     {
         private:
-            Ecs::World* _world;
+            const Ecs::World* _world;
             Ecs::Entity _entity;
         
-            const char* _name;
+            const std::string _name;
 
         public:
             GameObject(
-                const char* name, 
-                Ecs::World* world);
+                const std::string_view& name,
+                const Ecs::World* world);
 
             ~GameObject();
         

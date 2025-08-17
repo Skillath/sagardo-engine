@@ -1,10 +1,9 @@
 #ifndef GLTEXTURELOADER_H
 #define GLTEXTURELOADER_H
 
-#include <filesystem>
-
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
+#include <filesystem>
 
 namespace SagardoEngine
 {

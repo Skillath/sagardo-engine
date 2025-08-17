@@ -1,6 +1,7 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
+#include <filesystem>
 
 namespace SagardoEngine
 {    
@@ -18,11 +19,12 @@ namespace SagardoEngine
         float Z;
     };
     
-    struct RotationEulerComponent
+    struct RotationComponent
     {
         float X;
         float Y;
         float Z;
+        float W;
     };
 
     struct MeshComponent
@@ -58,8 +60,8 @@ namespace SagardoEngine
     };
 
     struct FileLoaderComponent
-    {
-        const char* Path;
+    {        
+        const std::filesystem::path& Path;
     };
 
     struct TextureComponent
@@ -71,16 +73,16 @@ namespace SagardoEngine
     struct TriangleComponent
     {        
         const float* Vertices;
-        unsigned int VerticesSize;
         const unsigned int* Indices;
-        unsigned int IndicesSize;
-        const char* FragmentShaderPath;
-        const char* VertexShaderPath;
-        const char* TexturePath;
         const float* TextCoords;
+        unsigned int VerticesSize;
+        unsigned int IndicesSize;
         unsigned int TextCoordsSize;
         int WrappingOptions;
-        const char* AwesomeFaceTexturePath;
+        std::filesystem::path FragmentShaderPath;
+        std::filesystem::path VertexShaderPath;
+        std::filesystem::path TexturePath;
+        std::filesystem::path AwesomeFaceTexturePath;
     };
     
 }

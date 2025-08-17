@@ -64,6 +64,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/Physics/PhysicsEngineInitializerSystem.h
         src/Engine/GlTextureLoader.cpp
         src/Engine/GlTextureLoader.h
+        src/Engine/GlmUtils.cpp
+        src/Engine/GlmUtils.h
 )
 
 target_include_directories(${PROJECT_NAME}

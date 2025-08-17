@@ -5,9 +5,12 @@
 namespace SagardoEngine::Ecs
 {
     Entity::Entity(
-        const flecs::entity entityId,
-        flecs::world* world)
-        : _world(world), _entityId(entityId)
+        const flecs::entity& entityId,
+        const flecs::world& world,
+        const std::string_view& name) :
+        _name(name),
+        _world(world),
+        _entityId(entityId)
     {
         if (world == nullptr)
             throw std::invalid_argument("world is null");
@@ -18,7 +21,6 @@ namespace SagardoEngine::Ecs
     Entity::~Entity()
     {
         Destroy();
-        _world = nullptr;
     }
 
     void Entity::Destroy() const

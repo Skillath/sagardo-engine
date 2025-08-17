@@ -2,6 +2,7 @@
 #define SCENE_HPP
 
 #include <vector>
+#include <string>
 
 #include "GameObject.h"
 #include "IStartable.h"
@@ -17,12 +18,13 @@ namespace SagardoEngine
         public IStopable
     {     
         private:
-            const char* _name;
+            const std::string _name;
+        
             Ecs::World* _world;
             std::vector<GameObject*> _gameObjects;
 
         public:
-            explicit Scene(const char* name);
+            explicit Scene(const std::string_view& name);
             ~Scene() override;
 
             void Start() override;

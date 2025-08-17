@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <string>
+
 #include "flecs.h"
 
 namespace SagardoEngine::Ecs
@@ -8,13 +10,15 @@ namespace SagardoEngine::Ecs
     class Entity
     {
     private:
-        flecs::world* _world;
-        const flecs::entity  _entityId;
+        const std::string _name;
+        const flecs::world _world;
+        const flecs::entity _entityId;
         
     public:
         Entity(
-            const flecs::entity entityId,
-            flecs::world* world);
+            const flecs::entity& entityId,
+            const flecs::world& world,
+            const std::string_view& name);
         ~Entity();
 
         void Destroy() const;
