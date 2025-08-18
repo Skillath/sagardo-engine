@@ -3,6 +3,9 @@
 
 #include <filesystem>
 
+#include "glm/vec3.hpp"
+#include "glm/ext/quaternion_geometric.hpp"
+
 namespace SagardoEngine
 {    
     struct PositionComponent
@@ -83,6 +86,26 @@ namespace SagardoEngine
         std::filesystem::path VertexShaderPath;
         std::filesystem::path TexturePath;
         std::filesystem::path AwesomeFaceTexturePath;
+    };
+
+    struct CameraComponent
+    {
+        glm::vec3 Target;
+        glm::vec3 Direction;
+        
+        glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+        
+        [[nodiscard]]
+        glm::vec3 GetCameraRight() const
+        {
+            return glm::normalize(glm::cross(Up, Direction));
+        }
+
+        [[nodiscard]]
+        glm::vec3 GetCameraUp() const
+        {
+            return glm::cross(Direction, GetCameraRight());
+        }
     };
     
 }

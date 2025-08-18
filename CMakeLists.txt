@@ -66,6 +66,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/GlTextureLoader.h
         src/Engine/GlmUtils.cpp
         src/Engine/GlmUtils.h
+        src/Engine/CameraUpdateSystem.cpp
+        src/Engine/CameraUpdateSystem.h
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -85,7 +87,8 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Executable
-add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+        src/ComponentUtils.cpp)
 
 target_link_libraries(DemoExecutable
         PRIVATE

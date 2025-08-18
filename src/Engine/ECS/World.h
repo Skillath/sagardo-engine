@@ -15,12 +15,15 @@ namespace SagardoEngine::Ecs
     
     public:
         ~World();
+        
         [[nodiscard]]
         Entity CreateEntity(const std::string_view& name) const;
         static void DestroyEntity(const Entity& entity);
 
         void RunSystem(ISystem& system, float deltaTime);
         void Update(float deltaTime) const;
+        
+        flecs::world& GetInnerWorld() { return _world; }
         
         template<typename T>
         void AddComponent(T component) const

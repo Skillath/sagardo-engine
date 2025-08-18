@@ -20,7 +20,7 @@ namespace SagardoEngine
         private:
             const std::string _name;
         
-            Ecs::World* _world;
+            Ecs::World _world;
             std::vector<GameObject*> _gameObjects;
 
         public:

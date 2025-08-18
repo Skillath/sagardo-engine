@@ -66,6 +66,10 @@ namespace SagardoEngine
             reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
             reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
 
+        // configure global opengl state
+        // -----------------------------
+        glEnable(GL_DEPTH_TEST);
+
         TimeProvider::Reset();
     
         _initialScene->Start();
@@ -81,7 +85,7 @@ namespace SagardoEngine
 
             //RENDERING!
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
             _initialScene->Update(deltaTime);
         
