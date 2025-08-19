@@ -15,7 +15,7 @@ namespace SagardoEngine
         const float deltaTime)
     {
         world
-            .system<TriangleComponent>()
+            .system<const TriangleComponent>()
             .kind(flecs::OnStart)
             .each([](
                 const flecs::entity entity,
@@ -77,6 +77,7 @@ namespace SagardoEngine
                     .set<TextureComponent>(textureComponent)
                     .set<ShaderComponent>(shader)
                     .remove<TriangleComponent>();
-            });
+            })
+            .run(deltaTime);
     }
 }

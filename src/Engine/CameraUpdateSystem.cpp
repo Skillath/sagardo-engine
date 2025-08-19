@@ -13,13 +13,14 @@ namespace SagardoEngine
                 const PositionComponent,
                 const RotationComponent,
                 const CameraComponent>()
-            .kind(flecs::PreUpdate)
+            //.kind(flecs::PreUpdate)
             .each([](
                 const PositionComponent& position,
                 const RotationComponent& rotation,
                 const CameraComponent& camera)
             {
                 
-            });
+            })
+            .run(deltaTime);
     }
 } 

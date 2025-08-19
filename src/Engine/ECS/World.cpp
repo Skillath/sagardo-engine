@@ -21,11 +21,12 @@ namespace SagardoEngine::Ecs
         entity.Destroy();
     }
 
-    void World::RunSystem(
+    World& World::RunSystem(
         ISystem& system,
         const float deltaTime)
     {
         system.Run(_world, deltaTime);
+        return *this;
     }
 
     void World::Update(const float deltaTime) const

@@ -29,6 +29,7 @@ namespace SagardoEngine
                     entity.remove<MeshComponent>();
                     entity.remove<ShaderComponent>();
                     entity.remove<TextureComponent>();
-                });
+                })
+            .run(deltaTime);
     }
 }

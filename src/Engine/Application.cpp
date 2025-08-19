@@ -71,12 +71,25 @@ namespace SagardoEngine
         glEnable(GL_DEPTH_TEST);
 
         TimeProvider::Reset();
-    
+
+        double lastTime = TimeProvider::GetTime();
+        int nbFrames = 0;
+        
         _initialScene.Start();
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+            double currentTime = TimeProvider::GetTime();
+            nbFrames++;
+            if (currentTime - lastTime >= 1.0) { // every second
+                const double fps = double(nbFrames) / (currentTime - lastTime);
+                std::printf("FPS: %.2f\n", fps);
+                nbFrames = 0;
+                lastTime = currentTime;
+            }
+
+            
             TimeProvider::UpdateDeltaTime();
             auto deltaTime = (float)TimeProvider::GetDeltaTime();
         

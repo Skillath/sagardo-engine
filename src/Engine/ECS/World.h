@@ -20,7 +20,7 @@ namespace SagardoEngine::Ecs
         Entity CreateEntity(const std::string_view& name) const;
         static void DestroyEntity(const Entity& entity);
 
-        void RunSystem(ISystem& system, float deltaTime);
+        World& RunSystem(ISystem& system, float deltaTime);
         void Update(float deltaTime) const;
         
         flecs::world& GetInnerWorld() { return _world; }

@@ -57,8 +57,6 @@ namespace SagardoEngine
     {
         RendererInitializerSystem rendererSystem { };
         _world.RunSystem(rendererSystem, 0);
-        
-        _world.Update(TimeProvider::GetDeltaTime());
     }
 
     GameObject* Scene::NewGameObject(const char *name)
@@ -86,18 +84,16 @@ namespace SagardoEngine
     void Scene::Update(const float deltaTime)
     {
         CameraUpdateSystem cameraUpdateSystem { };
-        _world.RunSystem(cameraUpdateSystem, deltaTime);
-        
         RendererSystem rendererSystem { };
-        _world.RunSystem(rendererSystem, deltaTime);
-
-        _world.Update(deltaTime);
+        
+        _world
+            .RunSystem(cameraUpdateSystem, deltaTime)
+            .RunSystem(rendererSystem, deltaTime);
     }
 
     void Scene::Stop()
     {
         ModelUnloaderSystem modelUnloadSystem { };
         _world.RunSystem(modelUnloadSystem, 0);
-        _world.Update(TimeProvider::GetDeltaTime());
     }
 }
