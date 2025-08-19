@@ -4,11 +4,53 @@
 #include <filesystem>
 
 #include "GlmUtils.h"
-#include "glm/vec3.hpp"
-#include "glm/ext/quaternion_geometric.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace SagardoEngine
-{    
+{
+    struct TransformComponent
+    {
+        glm::mat4 Matrix = glm::mat4(1.0f);
+
+        [[nodiscard]]
+        glm::vec3 GetPosition() const
+        {
+            return glm::vec3(Matrix[3][0], Matrix[3][1], Matrix[3][2]);
+        }
+
+        void SetPosition(const float x, const float y, const float z)
+        {
+            Matrix[3][0] = x;
+            Matrix[3][1] = y;
+            Matrix[3][2] = z;
+        }
+
+        [[nodiscard]]
+        glm::vec3 GetScale() const
+        {
+            return glm::vec3(Matrix[0][0], Matrix[0][1], Matrix[0][2]);
+        }
+
+        void SetScale(const float x, const float y, const float z)
+        {
+            Matrix[0][0] = x;
+            Matrix[0][1] = y;
+            Matrix[0][2] = z;
+        }
+
+        [[nodiscard]]
+        glm::quat GetRotation() const
+        {
+            return glm::quat();
+        }
+
+        void SetRotation(glm::quat rotation)
+        {
+            
+        }
+    };
+    
     struct PositionComponent
     {
         float X;
