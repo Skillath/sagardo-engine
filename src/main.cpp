@@ -23,8 +23,9 @@ int main(void)
         .Width = SCREEN_WIDTH,
         .Height = SCREEN_HEIGHT,
     };
-    
-    const Application app(settings, *SetupScene());
+
+    const auto scene = SetupScene();
+    const Application app(settings, *scene);
     
     int result = 0;
     try
@@ -34,9 +35,11 @@ int main(void)
     catch(const std::exception& e)
     {
         std::cerr << e.what() <<std::endl;
+        delete scene;
         return -1;
     }
 
+    delete scene;
     return result;
 }
 
