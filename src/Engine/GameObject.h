@@ -11,7 +11,7 @@ namespace SagardoEngine
     class GameObject
     {
         private:
-            const Ecs::World* _world;
+            const Ecs::World& _world;
             Ecs::Entity _entity;
         
             const std::string _name;
@@ -19,7 +19,7 @@ namespace SagardoEngine
         public:
             GameObject(
                 const std::string_view& name,
-                const Ecs::World* world);
+                const Ecs::World& world);
 
             ~GameObject();
         

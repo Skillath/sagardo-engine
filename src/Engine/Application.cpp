@@ -8,7 +8,7 @@ namespace SagardoEngine
 {
     Application::Application(
         const ApplicationSettings& settings,
-        Scene* initialScene) :
+        Scene& initialScene) :
             _settings(settings),
             _initialScene(initialScene)
     {
@@ -72,7 +72,7 @@ namespace SagardoEngine
 
         TimeProvider::Reset();
     
-        _initialScene->Start();
+        _initialScene.Start();
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -87,12 +87,12 @@ namespace SagardoEngine
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
-            _initialScene->Update(deltaTime);
+            _initialScene.Update(deltaTime);
         
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
-        _initialScene->Stop();
+        _initialScene.Stop();
         glfwTerminate();
         return 0;
     }

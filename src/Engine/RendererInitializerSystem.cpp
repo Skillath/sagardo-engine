@@ -77,7 +77,6 @@ namespace SagardoEngine
                     .set<TextureComponent>(textureComponent)
                     .set<ShaderComponent>(shader)
                     .remove<TriangleComponent>();
-            })
-            .run();
+            });
     }
 }

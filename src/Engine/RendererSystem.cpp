@@ -24,6 +24,7 @@ namespace SagardoEngine
             const MeshComponent,
             const ShaderComponent,
             const TextureComponent>()
+        .kind(flecs::OnStore)
         .each([](
             const flecs::entity entity,
             const PositionComponent& position,
@@ -67,7 +68,6 @@ namespace SagardoEngine
             glBindVertexArray(mesh.VertexArrayObject);
             //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
             glDrawArrays(GL_TRIANGLES, 0, 36);
-        })
-        .run(deltaTime);
+        });
     }
 }

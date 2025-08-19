@@ -42,6 +42,23 @@ namespace SagardoEngine::Ecs
         {
             return _world.get<T>();
         }
+
+        template<typename T>
+        [[nodiscard]]
+        Entity CreateArchetype(const std::string_view& name) const
+        {
+            const auto entity = _world
+                .entity()
+                .is_a<T>();
+
+            return InitializeEntity(entity, _world, name);
+        }
+
+    private:
+        static Entity InitializeEntity(
+            const flecs::entity& entity,
+            const flecs::world& world,
+            const std::string_view& name);
     };
 
 }

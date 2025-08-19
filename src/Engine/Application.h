@@ -19,12 +19,12 @@ namespace SagardoEngine
     {
     private:
         const ApplicationSettings _settings;
-        Scene* _initialScene;
+        Scene& _initialScene;
 
     public:
         explicit Application(
             const ApplicationSettings& settings,
-            Scene* initialScene);
+            Scene& initialScene);
 
         [[nodiscard]]
         int Run() const;

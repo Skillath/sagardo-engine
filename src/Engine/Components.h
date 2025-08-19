@@ -3,6 +3,7 @@
 
 #include <filesystem>
 
+#include "GlmUtils.h"
 #include "glm/vec3.hpp"
 #include "glm/ext/quaternion_geometric.hpp"
 
@@ -93,7 +94,7 @@ namespace SagardoEngine
         glm::vec3 Target;
         glm::vec3 Direction;
         
-        glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 Up = GlmUtils::Up();
         
         [[nodiscard]]
         glm::vec3 GetCameraRight() const
@@ -106,6 +107,8 @@ namespace SagardoEngine
         {
             return glm::cross(Direction, GetCameraRight());
         }
+
+        
     };
     
 }

@@ -24,7 +24,7 @@ int main(void)
         .Height = SCREEN_HEIGHT,
     };
     
-    const Application app(settings, SetupScene());
+    const Application app(settings, *SetupScene());
     
     int result = 0;
     try

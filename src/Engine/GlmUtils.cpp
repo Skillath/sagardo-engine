@@ -21,4 +21,44 @@ namespace SagardoEngine
         }
         return os;
     }
+
+    glm::vec3 GlmUtils::One()
+    {
+        return glm::vec3(1.0f, 1.0f, 1.0f);
+    }
+
+    glm::vec3 GlmUtils::Up()
+    {
+        return glm::vec3(0.0f, 1.0f, 0.0f);
+    }
+
+    glm::vec3 GlmUtils::Right()
+    {
+        return glm::vec3(1.0f, 0.0f, 0.0f);
+    }
+
+    glm::vec3 GlmUtils::Zero()
+    {
+        return glm::vec3(0.0f, 0.0f, 0.0f);
+    }
+
+    glm::vec3 GlmUtils::Forward()
+    {
+        return glm::vec3(0.0f, 0.0f, 1.0f);
+    }
+
+    glm::vec3 GlmUtils::Back()
+    {
+        return glm::vec3(0.0f, 0.0f, -1.0f);
+    }
+
+    glm::vec3 GlmUtils::Left()
+    {
+        return glm::vec3(-1.0f, 0.0f, 0.0f);
+    }
+
+    glm::vec3 GlmUtils::Down()
+    {
+        return glm::vec3(0.0f, -1.0f, 0.0f);
+    }
 }

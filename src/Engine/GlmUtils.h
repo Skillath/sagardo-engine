@@ -17,6 +17,15 @@ namespace SagardoEngine
             const glm::mat4& matrix,
             const int width = 10,
             const int prec = 3);
+
+        static glm::vec3 One();
+        static glm::vec3 Up();
+        static glm::vec3 Right();
+        static glm::vec3 Zero();
+        static glm::vec3 Forward();
+        static glm::vec3 Back();
+        static glm::vec3 Left();
+        static glm::vec3 Down();
     };    
 }
 

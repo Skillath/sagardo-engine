@@ -3,9 +3,11 @@
 #include "Scene.h"
 
 #include "CameraUpdateSystem.h"
+#include "Components.h"
 #include "ModelUnloaderSystem.h"
 #include "RendererSystem.h"
 #include "RendererInitializerSystem.h"
+#include "TimeProvider.h"
 
 namespace SagardoEngine
 {
@@ -14,6 +16,29 @@ namespace SagardoEngine
         _world(Ecs::World())
     {
         std::println("New Scene created {0}!", name);
+
+        _world.GetInnerWorld()
+            .prefab<GameObject>()
+            .set<PositionComponent>(
+            {
+                .X = 0,
+                .Y = 0,
+                .Z = 0,
+            })
+            .set<RotationComponent>(
+            {
+                .X = 0,
+                .Y = 0,
+                .Z = 0,
+                .W = 1,
+            })
+            .set<ScaleComponent>(
+            {
+                .X = 1,
+                .Y = 1,
+                .Z = 1,
+            });
+            
     }
 
     Scene::~Scene()
@@ -32,11 +57,13 @@ namespace SagardoEngine
     {
         RendererInitializerSystem rendererSystem { };
         _world.RunSystem(rendererSystem, 0);
+        
+        _world.Update(TimeProvider::GetDeltaTime());
     }
 
     GameObject* Scene::NewGameObject(const char *name)
     {
-        const auto gameObject = new GameObject(name, &_world);
+        const auto gameObject = new GameObject(name, _world);
         _gameObjects.push_back(gameObject);
         return gameObject;
     }
@@ -63,11 +90,14 @@ namespace SagardoEngine
         
         RendererSystem rendererSystem { };
         _world.RunSystem(rendererSystem, deltaTime);
+
+        _world.Update(deltaTime);
     }
 
     void Scene::Stop()
     {
         ModelUnloaderSystem modelUnloadSystem { };
         _world.RunSystem(modelUnloadSystem, 0);
+        _world.Update(TimeProvider::GetDeltaTime());
     }
 }
