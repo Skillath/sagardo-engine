@@ -5,6 +5,7 @@
 #define SCREEN_HEIGHT 720
 
 #include <iostream>
+#include <string>
 
 #include "Application.h"
 #include "ComponentUtils.h"
@@ -17,7 +18,7 @@ TriangleComponent SetupTriangle();
 
 int main(void)
 {
-    constexpr ApplicationSettings settings
+    const ApplicationSettings settings
     {
         .Name = "Hello World",
         .Width = SCREEN_WIDTH,
@@ -56,6 +57,7 @@ Scene* SetupScene()
 
     camera->AddComponent<CameraComponent>(
     {
+        
     });
 
     for (auto i = 0; i < 5; i++)

@@ -17,7 +17,8 @@ namespace SagardoEngine
     {
         std::println("New Scene created {0}!", name);
 
-        _world.GetInnerWorld()
+        _world
+            .GetInnerWorld()
             .prefab<GameObject>()
             .set<PositionComponent>(
             {
@@ -38,7 +39,6 @@ namespace SagardoEngine
                 .Y = 1,
                 .Z = 1,
             });
-            
     }
 
     Scene::~Scene()

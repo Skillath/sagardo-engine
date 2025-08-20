@@ -1,15 +1,17 @@
 #include "Application.h"
 
 #include <print>
+#include <format>
+#include <utility>
 
 #include "TimeProvider.h"
 
 namespace SagardoEngine
 {
     Application::Application(
-        const ApplicationSettings& settings,
+        ApplicationSettings settings,
         Scene& initialScene) :
-            _settings(settings),
+            _settings(std::move(settings)),
             _initialScene(initialScene)
     {
     }
@@ -38,7 +40,7 @@ namespace SagardoEngine
         const auto window = glfwCreateWindow(
             _settings.Width,
             _settings.Height,
-            _settings.Name,
+            _settings.Name.c_str(),
             nullptr,
             nullptr);
     
@@ -80,25 +82,22 @@ namespace SagardoEngine
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
-            double currentTime = TimeProvider::GetTime();
+            const double currentTime = TimeProvider::GetTime();
             nbFrames++;
-            if (currentTime - lastTime >= 1.0) { // every second
+            if (currentTime - lastTime >= 1.0)
+            { // every second
                 const double fps = double(nbFrames) / (currentTime - lastTime);
-                std::printf("FPS: %.2f\n", fps);
+                std::string message = _settings.Name + "- FPS: " + std::to_string((int)fps);
+                glfwSetWindowTitle(window, message.c_str());
+                
                 nbFrames = 0;
                 lastTime = currentTime;
             }
 
-            
             TimeProvider::UpdateDeltaTime();
-            auto deltaTime = (float)TimeProvider::GetDeltaTime();
-        
-            /* Render here */
+            const auto deltaTime = (float)TimeProvider::GetDeltaTime();
+            
             ProcessInput(window);
-
-            //RENDERING!
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
             _initialScene.Update(deltaTime);
         

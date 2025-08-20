@@ -22,8 +22,8 @@ namespace SagardoEngine
         static std::ostream& PrintMat4(
             std::ostream& os,
             const glm::mat4& matrix,
-            const int width = 10,
-            const int prec = 3);
+            int width = 10,
+            int prec = 3);
     };    
 }
 

@@ -2,17 +2,19 @@
 #define COMPONENTS_HPP
 
 #include <filesystem>
+#include <glm/glm.hpp>
 
 #include "GlmUtils.h"
-#include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 namespace SagardoEngine
-{
+{    
     struct TransformComponent
     {
+    private:
         glm::mat4 Matrix = glm::mat4(1.0f);
-
+        
+    public:
         [[nodiscard]]
         glm::vec3 GetPosition() const
         {
@@ -42,12 +44,12 @@ namespace SagardoEngine
         [[nodiscard]]
         glm::quat GetRotation() const
         {
-            return glm::quat();
+            
         }
 
         void SetRotation(glm::quat rotation)
         {
-            
+            throw std::runtime_error("Not implemented");
         }
     };
     
@@ -93,15 +95,15 @@ namespace SagardoEngine
         const T Value;
     };
 
-    struct ShaderModifyBoolComponent : ShaderModifyComponent<bool>
+    struct ShaderModifyBoolComponent final : ShaderModifyComponent<bool>
     {
     };
 
-    struct ShaderModifyIntegerComponent : ShaderModifyComponent<int>
+    struct ShaderModifyIntegerComponent final : ShaderModifyComponent<int>
     {
     };
 
-    struct ShaderModifyFloatComponent : ShaderModifyComponent<float>
+    struct ShaderModifyFloatComponent final : ShaderModifyComponent<float>
     {
     };
 
@@ -110,13 +112,13 @@ namespace SagardoEngine
         const std::filesystem::path& Path;
     };
 
-    struct TextureComponent
+    struct TextureComponent final
     {
         unsigned int TextureId;
         unsigned int Texture0Id;
     };
 
-    struct TriangleComponent
+    struct TriangleComponent final
     {        
         const float* Vertices;
         const unsigned int* Indices;
@@ -131,26 +133,17 @@ namespace SagardoEngine
         std::filesystem::path AwesomeFaceTexturePath;
     };
 
-    struct CameraComponent
+    struct CameraComponent final
     {
-        glm::vec3 Target;
-        glm::vec3 Direction;
-        
-        glm::vec3 Up = GlmUtils::Up();
-        
-        [[nodiscard]]
-        glm::vec3 GetCameraRight() const
-        {
-            return glm::normalize(glm::cross(Up, Direction));
-        }
+        unsigned int Fov;
+        float NearPlane;
+        float FarPlane;
+        bool IsOrthographic;
+    };
 
-        [[nodiscard]]
-        glm::vec3 GetCameraUp() const
-        {
-            return glm::cross(Direction, GetCameraRight());
-        }
-
-        
+    struct ViewMatrixComponent final
+    {
+        glm::mat4 ViewMatrix;
     };
     
 }

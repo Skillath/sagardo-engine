@@ -1,6 +1,7 @@
 #include "CameraUpdateSystem.h"
 
 #include "Components.h"
+#include "ComponentUtils.h"
 
 namespace SagardoEngine
 {
@@ -13,13 +14,20 @@ namespace SagardoEngine
                 const PositionComponent,
                 const RotationComponent,
                 const CameraComponent>()
-            //.kind(flecs::PreUpdate)
-            .each([](
+            .each([&world](
                 const PositionComponent& position,
                 const RotationComponent& rotation,
                 const CameraComponent& camera)
             {
-                
+                const auto view = glm::lookAt(
+                    ComponentUtils::ToVector3(position),
+                    GlmUtils::Zero,
+                    GlmUtils::Up);
+
+                world.set(ViewMatrixComponent
+                    {
+                        .ViewMatrix = view
+                    });
             })
             .run(deltaTime);
     }

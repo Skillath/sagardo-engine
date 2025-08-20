@@ -7,8 +7,8 @@
 #include "ISystem.h"
 
 namespace SagardoEngine::Ecs
-{
-    class World
+{    
+    class World final
     {
     private:
         flecs::world _world;
@@ -21,7 +21,6 @@ namespace SagardoEngine::Ecs
         static void DestroyEntity(const Entity& entity);
 
         World& RunSystem(ISystem& system, float deltaTime);
-        void Update(float deltaTime) const;
         
         flecs::world& GetInnerWorld() { return _world; }
         

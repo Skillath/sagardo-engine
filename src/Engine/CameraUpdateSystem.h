@@ -11,7 +11,7 @@ namespace SagardoEngine
     class CameraUpdateSystem final : public Ecs::ISystem
     {
     public:
-        void Run(flecs::world& world, const float deltaTime) override;
+        void Run(flecs::world& world, float deltaTime) override;
     };
 } // SagardoEngine
 

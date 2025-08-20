@@ -19,14 +19,14 @@ namespace SagardoEngine
     {
         static GLTexture CreateGlTexture(
             const std::byte* data,
-            const unsigned int width,
-            const unsigned int height,
-            const bool isSrgb,
-            const GLenum srcFmt);
+            unsigned int width,
+            unsigned int height,
+            bool isSrgb,
+            GLenum srcFmt);
 
         static GLTexture LoadTextureFromFile(
             const std::filesystem::path& path,
-            const bool isSrgb); 
+            bool isSrgb); 
     };
 }
 

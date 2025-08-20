@@ -2,8 +2,8 @@
 #define COMPONENTUTILS_H
 
 #include "Components.h"
-#include <glm/glm.hpp>
 
+#include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -25,9 +25,9 @@ namespace SagardoEngine
             const ScaleComponent& scaleComponent);
 
         static glm::quat EulerXYZDegToQuat(
-            const float x,
-            const float y,
-            const float z);
+            float x,
+            float y,
+            float z);
     };
 }
 

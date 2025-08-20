@@ -7,7 +7,7 @@
 
 namespace SagardoEngine::Ecs
 {
-    class Entity
+    class Entity final
     {
     private:
         const std::string _name;

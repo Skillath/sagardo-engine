@@ -1,5 +1,3 @@
-#include <stdexcept>
-
 #include "World.h"
 #include "ISystem.h"
 
@@ -27,12 +25,6 @@ namespace SagardoEngine::Ecs
     {
         system.Run(_world, deltaTime);
         return *this;
-    }
-
-    void World::Update(const float deltaTime) const
-    {
-        if (!_world.progress(deltaTime))
-            throw std::runtime_error("Scene update failed!");
     }
 
     Entity World::InitializeEntity(

@@ -5,12 +5,13 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include <string>
 
 namespace SagardoEngine
 {
     struct ApplicationSettings
     {
-        const char* Name;
+        const std::string Name;
         const unsigned int Width;
         const unsigned int Height;
     };
@@ -23,7 +24,7 @@ namespace SagardoEngine
 
     public:
         explicit Application(
-            const ApplicationSettings& settings,
+            ApplicationSettings  settings,
             Scene& initialScene);
 
         [[nodiscard]]
