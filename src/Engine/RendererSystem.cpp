@@ -16,9 +16,7 @@ namespace SagardoEngine
     void RendererSystem::Run(
         flecs::world& world,
         const float deltaTime)
-    {
-        glClearColor(0.f, 0.f, 0.f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    {        
         
         world
             .system<
@@ -28,7 +26,9 @@ namespace SagardoEngine
                 const MeshComponent,
                 const ShaderComponent,
                 const TextureComponent>()
-            .each([&world](
+            .each([](
+                const flecs::iter& it,
+                const size_t index,
                 const PositionComponent& position,
                 const RotationComponent& rotation,
                 const ScaleComponent& scale,
@@ -43,16 +43,15 @@ namespace SagardoEngine
 
                 const Shader shaderProgram(shader.ShaderProgramId);
                 shaderProgram.Use();
-
-
-                auto model = GlmUtils::Identity;
                 
+                const auto viewMatrix = it.world().get<CameraMatricesComponent>();
+                
+                auto model = GlmUtils::Identity;
                 model = glm::rotate(model, (float)TimeProvider::GetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
                 
-                const auto projection = glm::perspective(glm::radians(60.0f), (float)1280 / (float)720, 0.1f, 100.0f);
+                const auto projection = viewMatrix.Projection;
+                const auto view = viewMatrix.View;
                 
-                const auto viewMatrix = world.get<ViewMatrixComponent>();
-                const auto view = viewMatrix.ViewMatrix;
                 shaderProgram.SetMat4("model", model);
                 shaderProgram.SetMat4("view", view);
                 shaderProgram.SetMat4("projection", projection);

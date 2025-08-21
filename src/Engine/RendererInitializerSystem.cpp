@@ -18,7 +18,8 @@ namespace SagardoEngine
             .system<const TriangleComponent>()
             .kind(flecs::OnStart)
             .each([](
-                const flecs::entity entity,
+                const flecs::iter& it,
+                const size_t index,
                 const TriangleComponent& triangle)
             {
                 const Shader shaderProgram(
@@ -71,6 +72,8 @@ namespace SagardoEngine
                 shaderProgram.Use();
                 shaderProgram.SetInt("texture1", 0);
                 shaderProgram.SetInt("texture2", 1);
+                
+                const auto entity = it.entity(index);
                 
                 entity
                     .set<MeshComponent>(mesh)

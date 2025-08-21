@@ -45,6 +45,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/IStartable.h
         src/Engine/IStopable.h
         src/Engine/IRenderPipeline.h
+        src/Engine/ComponentUtils.cpp
         src/Engine/ComponentUtils.h
         src/Engine/RendererSystem.cpp
         src/Engine/RendererSystem.h
@@ -68,6 +69,9 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/GlmUtils.h
         src/Engine/CameraUpdateSystem.cpp
         src/Engine/CameraUpdateSystem.h
+        src/Engine/Mathf.h
+        src/Engine/Color.h
+        src/Engine/ColorUtils.h
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -76,19 +80,19 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-        PUBLIC
+        PRIVATE
         assimp
+        Jolt
+        stb_image
+        PUBLIC
         glfw
         glm
-        Jolt
         glad
-        stb_image
         ${PROJECT_NAME}_ecs
 )
 
 # Executable
-add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-        src/ComponentUtils.cpp)
+add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 target_link_libraries(DemoExecutable
         PRIVATE

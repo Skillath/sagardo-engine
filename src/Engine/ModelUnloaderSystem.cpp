@@ -15,7 +15,8 @@ namespace SagardoEngine
                 const ShaderComponent,
                 const TextureComponent>()
             .each([](
-                const flecs::entity entity,
+                const flecs::iter& it,
+                const size_t index,
                 const MeshComponent& mesh,
                 const ShaderComponent& shader,
                 const TextureComponent& texture)
@@ -26,6 +27,7 @@ namespace SagardoEngine
                     glDeleteProgram(shader.ShaderProgramId);
                     glDeleteTextures(1, &texture.TextureId);
 
+                    const auto entity = it.entity(index);
                     entity.remove<MeshComponent>();
                     entity.remove<ShaderComponent>();
                     entity.remove<TextureComponent>();

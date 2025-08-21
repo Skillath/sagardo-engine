@@ -3,9 +3,10 @@
 
 #include <filesystem>
 #include <glm/glm.hpp>
-
-#include "GlmUtils.h"
 #include <glm/gtc/quaternion.hpp>
+
+#include "Color.h"
+#include "GlmUtils.h"
 
 namespace SagardoEngine
 {    
@@ -53,63 +54,48 @@ namespace SagardoEngine
         }
     };
     
-    struct PositionComponent
+    struct PositionComponent final
     {
-        float X;
-        float Y;
-        float Z;
+        float X = 0.f;
+        float Y = 0.f;
+        float Z = 0.f;
     };
 
-    struct ScaleComponent
+    struct ScaleComponent final
     {
-        float X;
-        float Y;
-        float Z;
+        float X = 1.f;
+        float Y = 1.f;
+        float Z = 1.f;
     };
     
-    struct RotationComponent
+    struct RotationComponent final
     {
-        float X;
-        float Y;
-        float Z;
-        float W;
+        float X = 0.f;
+        float Y = 0.f;
+        float Z = 0.f;
+        float W = 1.f;
     };
 
-    struct MeshComponent
+    struct MeshComponent final
     {
         unsigned int VertexArrayObject;
         unsigned int VertexBufferObject;
         unsigned int ElementBufferObject;
     };
 
-    struct ShaderComponent
+    struct ShaderComponent final
     {
         unsigned int ShaderProgramId;
     };
 
-    template<typename T>
-    struct ShaderModifyComponent
+    struct ModelComponent final
     {
-        const unsigned int ShaderProgram;
-        const char* Name;
-        const T Value;
+        
     };
 
-    struct ShaderModifyBoolComponent final : ShaderModifyComponent<bool>
-    {
-    };
-
-    struct ShaderModifyIntegerComponent final : ShaderModifyComponent<int>
-    {
-    };
-
-    struct ShaderModifyFloatComponent final : ShaderModifyComponent<float>
-    {
-    };
-
-    struct FileLoaderComponent
+    struct FileLoaderComponent final
     {        
-        const std::filesystem::path& Path;
+        std::filesystem::path Path;
     };
 
     struct TextureComponent final
@@ -135,17 +121,35 @@ namespace SagardoEngine
 
     struct CameraComponent final
     {
-        unsigned int Fov;
-        float NearPlane;
-        float FarPlane;
-        bool IsOrthographic;
+        float Fov = 45.f;
+        float NearPlane = 0.1f;
+        float FarPlane = 100.0f;
+        float AspectRatio = 16.f / 9.f;
+        bool IsOrthographic = false;
     };
 
     struct ViewMatrixComponent final
     {
         glm::mat4 ViewMatrix;
     };
-    
+
+    struct CameraMatricesComponent final
+    {
+        glm::mat4 View = GlmUtils::Identity;
+        glm::mat4 Projection = GlmUtils::Identity;
+        glm::mat4 Viewport = GlmUtils::Identity;
+    };
+
+    struct ActiveCameraTag final
+    {
+        //This is a Tag
+    };
+
+    struct LightComponent final
+    {
+        Color32 Color;
+        float LightIntensity;
+    };
 }
 
 #endif
