@@ -1,9 +1,6 @@
-//
-// Created by xabi on 18/8/25.
-//
+#ifndef SAGARDOENGINE_CAMERAUPDATESYSTEM_H
+#define SAGARDOENGINE_CAMERAUPDATESYSTEM_H
 
-#ifndef CAMERAUPDATESYSTEM_H
-#define CAMERAUPDATESYSTEM_H
 #include "ISystem.h"
 
 namespace SagardoEngine
@@ -15,4 +12,4 @@ namespace SagardoEngine
     };
 } // SagardoEngine
 
-#endif //CAMERAUPDATESYSTEM_H
+#endif //SAGARDOENGINE_CAMERAUPDATESYSTEM_H

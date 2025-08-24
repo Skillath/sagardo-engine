@@ -1,5 +1,5 @@
-#ifndef COLORUTILS_H
-#define COLORUTILS_H
+#ifndef SAGARDOENGINE_COLORUTILS_H
+#define SAGARDOENGINE_COLORUTILS_H
 
 #include "Color.h"
 #include "Mathf.h"
@@ -35,4 +35,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //COLORUTILS_H
+#endif //SAGARDOENGINE_COLORUTILS_H

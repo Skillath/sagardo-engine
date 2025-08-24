@@ -1,5 +1,5 @@
-#ifndef TIMEPROVIDER_H
-#define TIMEPROVIDER_H
+#ifndef SAGARDOENGINE_TIMEPROVIDER_H
+#define SAGARDOENGINE_TIMEPROVIDER_H
 
 namespace SagardoEngine
 {
@@ -16,4 +16,4 @@ namespace SagardoEngine
         static void Reset(); // call once after glfwInit()
     };
 }
-#endif //TIMEPROVIDER_H
+#endif //SAGARDOENGINE_TIMEPROVIDER_H

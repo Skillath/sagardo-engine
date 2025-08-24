@@ -1,5 +1,5 @@
-#ifndef GAMEOBJECT_HPP
-#define GAMEOBJECT_HPP
+#ifndef SAGARDOENGINE_GAMEOBJECT_HPP
+#define SAGARDOENGINE_GAMEOBJECT_HPP
 
 #include <string>
 
@@ -43,4 +43,4 @@ namespace SagardoEngine
     };
 }
 
-#endif // !GAMEOBJECT_HPP
+#endif //SAGARDOENGINE_GAMEOBJECT_HPP

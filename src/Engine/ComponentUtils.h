@@ -1,5 +1,5 @@
-#ifndef COMPONENTUTILS_H
-#define COMPONENTUTILS_H
+#ifndef SAGARDOENGINE_COMPONENTUTILS_H
+#define SAGARDOENGINE_COMPONENTUTILS_H
 
 #include "Components.h"
 
@@ -31,4 +31,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //COMPONENTUTILS_H
+#endif //SAGARDOENGINE_COMPONENTUTILS_H

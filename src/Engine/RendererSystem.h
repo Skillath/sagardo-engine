@@ -1,5 +1,5 @@
-#ifndef RENDERERSYSTEM_H
-#define RENDERERSYSTEM_H
+#ifndef SAGARDOENGINE_RENDERERSYSTEM_H
+#define SAGARDOENGINE_RENDERERSYSTEM_H
 
 #include "ECS/ISystem.h"
 
@@ -12,4 +12,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //RENDERERSYSTEM_H
+#endif //SAGARDOENGINE_RENDERERSYSTEM_H

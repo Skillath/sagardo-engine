@@ -2,8 +2,8 @@
 // Created by xabi on 21/8/25.
 //
 
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef SAGARDOENGINE_COLOR_H
+#define SAGARDOENGINE_COLOR_H
 
 #include <glm/glm.hpp>
 

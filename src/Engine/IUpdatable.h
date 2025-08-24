@@ -1,5 +1,5 @@
-#ifndef IUPDATABLE_H
-#define IUPDATABLE_H
+#ifndef SAGARDOENGINE_IUPDATABLE_H
+#define SAGARDOENGINE_IUPDATABLE_H
 
 namespace SagardoEngine
 {
@@ -13,4 +13,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //IUPDATABLE_H
+#endif //SAGARDOENGINE_IUPDATABLE_H

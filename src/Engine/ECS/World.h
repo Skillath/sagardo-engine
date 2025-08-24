@@ -1,5 +1,5 @@
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef SAGARDOENGINE_ECS_WORLD_H
+#define SAGARDOENGINE_ECS_WORLD_H
 
 #include <string>
 
@@ -62,4 +62,4 @@ namespace SagardoEngine::Ecs
 
 }
 
-#endif //WORLD_H
+#endif //SAGARDOENGINE_ECS_WORLD_H

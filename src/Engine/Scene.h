@@ -1,5 +1,5 @@
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#ifndef SAGARDOENGINE_SCENE_HPP
+#define SAGARDOENGINE_SCENE_HPP
 
 #include <vector>
 #include <string>
@@ -36,4 +36,4 @@ namespace SagardoEngine
     };
 }
 
-#endif
+#endif //SAGARDOENGINE_SCENE_HPP

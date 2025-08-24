@@ -1,5 +1,5 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef SAGARDOENGINE_ECS_ENTITY_H
+#define SAGARDOENGINE_ECS_ENTITY_H
 
 #include <string>
 
@@ -43,4 +43,4 @@ namespace SagardoEngine::Ecs
     };
 }
 
-#endif //ENTITY_H
+#endif //SAGARDOENGINE_ECS_ENTITY_H

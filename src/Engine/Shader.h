@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef SAGARDOENGINE_SHADER_H
+#define SAGARDOENGINE_SHADER_H
 
 #include <filesystem>
 
@@ -18,7 +18,8 @@ namespace SagardoEngine
     public:  
         Shader(
             const std::filesystem::path& vertexPath,
-            const std::filesystem::path& fragmentPath);
+            const std::filesystem::path& fragmentPath,
+            const std::filesystem::path& geometryPath = "");
         
         explicit Shader(unsigned int id);
         
@@ -44,4 +45,4 @@ namespace SagardoEngine
         static void CheckCompileErrors(unsigned int shader, const std::string& type);
     };
 }
-#endif
+#endif //SAGARDOENGINE_SHADER_H

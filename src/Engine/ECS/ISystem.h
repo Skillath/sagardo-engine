@@ -2,8 +2,8 @@
 // Created by xabi on 6/07/25.
 //
 
-#ifndef ISYSTEM_H
-#define ISYSTEM_H
+#ifndef SAGARDOENGINE_ECS_ISYSTEM_H
+#define SAGARDOENGINE_ECS_ISYSTEM_H
 
 #include "flecs.h"
 
@@ -19,4 +19,4 @@ namespace SagardoEngine::Ecs
     };
 }
 
-#endif //ISYSTEM_H
+#endif //SAGARDOENGINE_ECS_ISYSTEM_H

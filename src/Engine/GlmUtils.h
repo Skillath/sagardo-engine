@@ -1,5 +1,5 @@
-#ifndef GLMHELPER_H
-#define GLMHELPER_H
+#ifndef SAGARDOENGINE_GLMHELPER_H
+#define SAGARDOENGINE_GLMHELPER_H
 
 #include <iosfwd>
 #include <glm/glm.hpp>
@@ -29,4 +29,4 @@ namespace SagardoEngine
 
 
 
-#endif GLMHELPER_H
+#endif //SAGARDOENGINE_GLMHELPER_H

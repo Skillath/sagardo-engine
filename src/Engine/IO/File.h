@@ -1,5 +1,5 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef SAGARDOENGINE_IO_FILE_H
+#define SAGARDOENGINE_IO_FILE_H
 
 #include <filesystem>
 #include <string>
@@ -13,4 +13,4 @@ namespace SagardoEngine::IO
     };
 }
 
-#endif //FILE_H
+#endif //SAGARDOENGINE_IO_FILE_H

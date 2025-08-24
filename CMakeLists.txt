@@ -72,6 +72,10 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/Mathf.h
         src/Engine/Color.h
         src/Engine/ColorUtils.h
+        src/Engine/Mesh.cpp
+        src/Engine/Mesh.h
+        src/Engine/Model.cpp
+        src/Engine/Model.h
 )
 
 target_include_directories(${PROJECT_NAME}

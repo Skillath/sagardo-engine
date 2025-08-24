@@ -1,5 +1,5 @@
-#ifndef MATHF_H
-#define MATHF_H
+#ifndef SAGARDOENGINE_MATHF_H
+#define SAGARDOENGINE_MATHF_H
 
 #include <type_traits>
 #include <cmath>
@@ -171,4 +171,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //MATHF_H
+#endif //SAGARDOENGINE_MATHF_H

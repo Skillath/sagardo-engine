@@ -1,5 +1,5 @@
-#ifndef IRENDERPIPELINE_H
-#define IRENDERPIPELINE_H
+#ifndef SAGARDOENGINE_IRENDERPIPELINE_H
+#define SAGARDOENGINE_IRENDERPIPELINE_H
 
 class IRenderPipeline
 {
@@ -10,4 +10,4 @@ protected:
     virtual ~IRenderPipeline() = default;
 };
 
-#endif //IRENDERPIPELINE_H
+#endif //SAGARDOENGINE_IRENDERPIPELINE_H

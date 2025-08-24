@@ -1,5 +1,5 @@
-#ifndef ISTARTABLE_H
-#define ISTARTABLE_H
+#ifndef SAGARDOENGINE_ISTARTABLE_H
+#define SAGARDOENGINE_ISTARTABLE_H
 
 namespace SagardoEngine
 {
@@ -13,4 +13,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //ISTARTABLE_H
+#endif //SAGARDOENGINE_ISTARTABLE_H

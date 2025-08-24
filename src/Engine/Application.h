@@ -1,5 +1,5 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#ifndef SAGARDOENGINE_APPLICATION_H
+#define SAGARDOENGINE_APPLICATION_H
 
 #include "Scene.h"
 
@@ -36,4 +36,4 @@ namespace SagardoEngine
     };
 }
 
-#endif //APPLICATION_H
+#endif //SAGARDOENGINE_APPLICATION_H

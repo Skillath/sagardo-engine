@@ -1,5 +1,5 @@
-#ifndef COMPONENTS_HPP
-#define COMPONENTS_HPP
+#ifndef SAGARDOENGINE_COMPONENTS_HPP
+#define SAGARDOENGINE_COMPONENTS_HPP
 
 #include <filesystem>
 #include <glm/glm.hpp>
@@ -7,6 +7,7 @@
 
 #include "Color.h"
 #include "GlmUtils.h"
+#include "Model.h"
 
 namespace SagardoEngine
 {    
@@ -90,7 +91,7 @@ namespace SagardoEngine
 
     struct ModelComponent final
     {
-        
+        Model* LoadedModel = nullptr;
     };
 
     struct FileLoaderComponent final
@@ -104,19 +105,9 @@ namespace SagardoEngine
         unsigned int Texture0Id;
     };
 
-    struct TriangleComponent final
-    {        
-        const float* Vertices;
-        const unsigned int* Indices;
-        const float* TextCoords;
-        unsigned int VerticesSize;
-        unsigned int IndicesSize;
-        unsigned int TextCoordsSize;
-        int WrappingOptions;
-        std::filesystem::path FragmentShaderPath;
-        std::filesystem::path VertexShaderPath;
-        std::filesystem::path TexturePath;
-        std::filesystem::path AwesomeFaceTexturePath;
+    struct ModelLoaderComponent final
+    {
+        std::filesystem::path Path;
     };
 
     struct CameraComponent final
@@ -147,7 +138,9 @@ namespace SagardoEngine
 
     struct LightComponent final
     {
-        Color32 Color;
+        float Red;
+        float Green;
+        float Blue;
         float LightIntensity;
     };
 }
