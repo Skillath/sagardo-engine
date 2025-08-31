@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "TimeProvider.h"
+#include <Debug/OpenGlDebug.h>
 
 namespace SagardoEngine
 {
@@ -21,10 +22,10 @@ namespace SagardoEngine
         if (!glfwInit())
         {
             std::println("Failed to initialize GLFW!");
-            return -1;
+            std::exit(EXIT_FAILURE);
         }
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -32,9 +33,8 @@ namespace SagardoEngine
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-#ifndef NDEBUG
-        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif
+
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);  
         
         /* Create a windowed mode window and its OpenGL context */
         const auto window = glfwCreateWindow(
@@ -53,13 +53,23 @@ namespace SagardoEngine
 
         /* Make the window's context current */
         glfwMakeContextCurrent(window);
+        
         glfwSetFramebufferSizeCallback(window, OnWindowResized);
 
-        /* glad: load all OpenGL function pointers */
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (!gladLoadGL(glfwGetProcAddress))
         {
-            std::println("Failed to initialize GLAD");
-            return -1;
+            std::println("Failed to initializ GLAD");
+            std::exit(EXIT_FAILURE);
+        }
+
+        int flags;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+        if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+        {
+            glEnable(GL_DEBUG_OUTPUT);
+            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); 
+            glDebugMessageCallback(Debug::GlDebugOutput, nullptr);
+            glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);            
         }
 
         // Optional: at startup print device info
@@ -68,8 +78,6 @@ namespace SagardoEngine
             reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
             reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
 
-        // configure global opengl state
-        // -----------------------------
         glEnable(GL_DEPTH_TEST);
 
         TimeProvider::Reset();

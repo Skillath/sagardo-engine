@@ -76,12 +76,17 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/Mesh.h
         src/Engine/Model.cpp
         src/Engine/Model.h
+        src/Engine/Logger.h
+        src/Engine/Debug/OpenGlDebug.h
+        src/Engine/Debug/OpenGlDebug.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
 )
+
+#target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
@@ -91,7 +96,7 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC
         glfw
         glm
-        glad
+        glad2
         ${PROJECT_NAME}_ecs
 )
 

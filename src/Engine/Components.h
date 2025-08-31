@@ -79,14 +79,14 @@ namespace SagardoEngine
 
     struct MeshComponent final
     {
-        unsigned int VertexArrayObject;
-        unsigned int VertexBufferObject;
-        unsigned int ElementBufferObject;
+        uint32_t VertexArrayObject;
+        uint32_t VertexBufferObject;
+        uint32_t ElementBufferObject;
     };
 
     struct ShaderComponent final
     {
-        unsigned int ShaderProgramId;
+        uint32_t ShaderProgramId;
     };
 
     struct ModelComponent final
@@ -101,8 +101,8 @@ namespace SagardoEngine
 
     struct TextureComponent final
     {
-        unsigned int TextureId;
-        unsigned int Texture0Id;
+        uint32_t TextureId;
+        uint32_t Texture0Id;
     };
 
     struct ModelLoaderComponent final

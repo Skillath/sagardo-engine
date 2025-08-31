@@ -1,7 +1,7 @@
 #include "ModelUnloaderSystem.h"
 
 #include "Components.h"
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace SagardoEngine
 {
@@ -27,10 +27,10 @@ namespace SagardoEngine
                     glDeleteProgram(shader.ShaderProgramId);
                     glDeleteTextures(1, &texture.TextureId);
 
-                    const auto entity = it.entity(index);
-                    entity.remove<MeshComponent>();
-                    entity.remove<ShaderComponent>();
-                    entity.remove<TextureComponent>();
+                    it.entity(index)
+                        .remove<MeshComponent>()
+                        .remove<ShaderComponent>()
+                        .remove<TextureComponent>();
                 })
             .run(deltaTime);
     }

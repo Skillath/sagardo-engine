@@ -3,7 +3,7 @@
 
 #include <filesystem>
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 #include <glm/glm.hpp>
 
 #include <string>

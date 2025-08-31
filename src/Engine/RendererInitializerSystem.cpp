@@ -24,7 +24,7 @@ namespace SagardoEngine
                 const auto& entity = it.entity(index);
                 modelComponent.LoadedModel = new Model(fileLoaderComponent.Path);
 
-                const Shader shaderProgram ("src/res/shaders/color.vert", "src/res/shaders/color.frag");
+                const Shader shaderProgram ("src/res/shaders/lit/lit.vert", "src/res/shaders/lit/lit.frag");
                 shaderProgram.Use();
                 
                 entity

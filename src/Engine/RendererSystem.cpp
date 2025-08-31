@@ -2,7 +2,7 @@
 
 #include "Components.h"
 #include "Shader.h"
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,8 +16,7 @@ namespace SagardoEngine
     void RendererSystem::Run(
         flecs::world& world,
         const float deltaTime)
-    {        
-        
+    {      
         world
             .system<
                 const PositionComponent,
