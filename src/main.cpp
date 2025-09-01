@@ -71,19 +71,19 @@ Scene* SetupScene()
         .LightIntensity = 1.f,
     });
 
-    for (auto i = 0; i < 3; i++)
+    for (auto i = 0; i < 1; i++)
     {        
         const auto& modelGameObject = gameContextScene->NewGameObject(("3D Model{" + std::to_string(i) + "}").c_str());
         modelGameObject->AddComponent<FileLoaderComponent>(
         {
-                .Path = "src/res/models/backpack/backpack.obj",
+                .Path = "res/models/backpack/backpack.obj",
         });
 
         modelGameObject->AddComponent<ModelComponent>({});
         
         modelGameObject->AddComponent<PositionComponent>(
         {
-            .X = i * 2.f,
+            .X = 2,
             .Y = 0.f,
             .Z = i * 2.f,
         });
@@ -93,6 +93,11 @@ Scene* SetupScene()
             .X = 0.5f,
             .Y = 0.5f,
             .Z = 0.5f,
+        });
+
+        modelGameObject->AddComponent<RotatorComponent>(
+        {
+            .RotationSpeed = glm::vec3{0.f, 10.f, 0.f},
         });
     }
 

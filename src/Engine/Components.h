@@ -143,6 +143,11 @@ namespace SagardoEngine
         float Blue;
         float LightIntensity;
     };
+
+    struct RotatorComponent final
+    {
+        glm::vec3 RotationSpeed;
+    };
 }
 
 #endif

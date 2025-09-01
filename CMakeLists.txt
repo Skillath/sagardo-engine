@@ -1,43 +1,37 @@
 cmake_minimum_required(VERSION 3.26...3.31.6)
-project(
-        SagardoEngine 
-        VERSION 0.0.1
-        LANGUAGES C CXX)
 
-include(GenerateExportHeader)
+project(SagardoEngine VERSION 0.0.1 LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 26)            
+# ---------- Options (must exist before add_subdirectory(deps)) ----------
+option(SAGARDO_ENABLE_VK "Enable Vulkan backend (volk from deps)" OFF)
+option(SAGARDO_WARN_AS_ERRORS "Treat warnings as errors" OFF)
+option(SAGARDO_GL_DEBUG "Enable GL debug code paths" ON)
+
+# ---------- Global ----------
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# Static libs may be linked into shared/lib later (plugins), keep PIC on
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-find_package(OpenGL REQUIRED)
-# Vulkan stuff
-#find_package(Vulkan REQUIRED COMPONENTS glslc glslang SPIRV-Tools)
+# ---------- Third-party ----------
+add_subdirectory(deps) # exposes: flecs::flecs_static, glfw, glm, assimp, Jolt, stb_image, Freetype::Freetype, glad2, (optional) volk
 
-add_subdirectory(deps)
-
-# ECS Static Library
-add_library(${PROJECT_NAME}_ecs STATIC
+# ---------- ECS static lib ----------
+add_library(${PROJECT_NAME}.ecs STATIC
         src/Engine/ECS/World.cpp
         src/Engine/ECS/Entity.cpp
         src/Engine/ECS/Entity.h
         src/Engine/ECS/World.h
         src/Engine/ECS/ISystem.h
 )
-
-target_include_directories(${PROJECT_NAME}_ecs
-        PUBLIC
+target_include_directories(${PROJECT_NAME}.ecs PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ECS
 )
+target_link_libraries(${PROJECT_NAME}.ecs PUBLIC flecs::flecs_static)
 
-target_link_libraries(${PROJECT_NAME}_ecs
-        PUBLIC
-        flecs::flecs_static        
-)
-
-# Core Engine Library
+# ---------- Core engine static lib ----------
 add_library(${PROJECT_NAME} STATIC
-        ${SOURCES} ${HEADERS}
         src/Engine/GameObject.cpp
         src/Engine/Scene.cpp
         src/Engine/Components.h
@@ -79,14 +73,19 @@ add_library(${PROJECT_NAME} STATIC
         src/Engine/Logger.h
         src/Engine/Debug/OpenGlDebug.h
         src/Engine/Debug/OpenGlDebug.cpp
+        src/Engine/Window.cpp
+        src/Engine/Window.h
 )
-
-target_include_directories(${PROJECT_NAME}
-        PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
 )
 
-#target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
+# Prevent GLFW from pulling GL headers; we control with glad/volk
+target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
+
+if(SAGARDO_GL_DEBUG)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC SAGARDO_GL_DEBUG=1)
+endif()
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
@@ -97,51 +96,70 @@ target_link_libraries(${PROJECT_NAME}
         glfw
         glm
         glad2
-        ${PROJECT_NAME}_ecs
+        ${PROJECT_NAME}.ecs
 )
 
-# Executable
-add_executable(DemoExecutable ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+# Optional Vulkan backend (volk provided by deps when SAGARDO_ENABLE_VK=ON)
+if(SAGARDO_ENABLE_VK)
+  target_link_libraries(${PROJECT_NAME} PRIVATE volk)
+  # volk target already defines VK_NO_PROTOTYPES / VOLK_STATIC_DEFINE
+endif()
 
-target_link_libraries(DemoExecutable
-        PRIVATE
-        ${PROJECT_NAME}
-)
+# ---------- Executable ----------
+add_executable(DemoExecutable src/main.cpp)
+target_link_libraries(DemoExecutable PRIVATE ${PROJECT_NAME})
 
-# Copy assets
+# macOS: link frameworks on the final binary (window owner)
+if(APPLE)
+  target_link_libraries(DemoExecutable PRIVATE "-framework IOKit" "-framework Cocoa")
+endif()
+
+# ---------- Assets next to binary ----------
 add_custom_target(copy_assets ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
         ${CMAKE_CURRENT_SOURCE_DIR}/src/res
-        ${CMAKE_CURRENT_BINARY_DIR}/src/res
-        COMMENT "Smart-copying changed asset files"
+        $<TARGET_FILE_DIR:DemoExecutable>/res
+        COMMENT "Smart-copying changed asset files to runtime dir"
 )
-
 add_dependencies(DemoExecutable copy_assets)
 
-# macOS frameworks
-if(APPLE)
-  target_link_libraries(DemoExecutable
-          PRIVATE
-          "-framework IOKit"
-          "-framework Cocoa"
-          "-framework OpenGL"
+# ---------- Output directories (per-config) ----------
+set(_bin_dir ${CMAKE_CURRENT_SOURCE_DIR}/build/bin)
+foreach(_tgt IN ITEMS ${PROJECT_NAME} ${PROJECT_NAME}.ecs DemoExecutable)
+  set_target_properties(${_tgt} PROPERTIES
+          RUNTIME_OUTPUT_DIRECTORY                 "${_bin_dir}"
+          RUNTIME_OUTPUT_DIRECTORY_DEBUG           "${_bin_dir}/debug"
+          RUNTIME_OUTPUT_DIRECTORY_RELEASE         "${_bin_dir}/release"
+          RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO  "${_bin_dir}/RelWithDebInfo"
+          RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL      "${_bin_dir}/MinSizeRel"
+
+          ARCHIVE_OUTPUT_DIRECTORY                 "${_bin_dir}"
+          ARCHIVE_OUTPUT_DIRECTORY_DEBUG           "${_bin_dir}/debug"
+          ARCHIVE_OUTPUT_DIRECTORY_RELEASE         "${_bin_dir}/release"
+          ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO  "${_bin_dir}/RelWithDebInfo"
+          ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL      "${_bin_dir}/MinSizeRel"
+
+          LIBRARY_OUTPUT_DIRECTORY                 "${_bin_dir}"
+          LIBRARY_OUTPUT_DIRECTORY_DEBUG           "${_bin_dir}/debug"
+          LIBRARY_OUTPUT_DIRECTORY_RELEASE         "${_bin_dir}/release"
+          LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO  "${_bin_dir}/RelWithDebInfo"
+          LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL      "${_bin_dir}/MinSizeRel"
   )
-endif()
+endforeach()
 
-if(NOT GLAD_CUSTOM_OUTPUT)
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin/debug/")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin/release/")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}/build/bin/MinSizeRel/")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/build/bin/RelWithDebInfo/")
+# ---------- Warnings ----------
+if(MSVC)
+  foreach(_tgt IN ITEMS ${PROJECT_NAME} ${PROJECT_NAME}.ecs DemoExecutable)
+    target_compile_options(${_tgt} PRIVATE /W4 /permissive-)
+    if(SAGARDO_WARN_AS_ERRORS)
+      target_compile_options(${_tgt} PRIVATE /WX)
+    endif()
+  endforeach()
 else()
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${GLAD_CUSTOM_OUTPUT_DEBUG}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${GLAD_CUSTOM_OUTPUT_RELEASE}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${GLAD_CUSTOM_OUTPUT_MINSIZEREL}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${GLAD_CUSTOM_OUTPUT_RELWITHDEBINFO}")
-endif()
-
-if (MSVC)
-  target_compile_options(SagardoEngine PRIVATE /W4 /permissive-)
-else()
-  target_compile_options(SagardoEngine PRIVATE -Wall -Wextra -Wpedantic -g)
+  foreach(_tgt IN ITEMS ${PROJECT_NAME} ${PROJECT_NAME}.ecs DemoExecutable)
+    target_compile_options(${_tgt} PRIVATE -Wall -Wextra -Wpedantic)
+    if(SAGARDO_WARN_AS_ERRORS)
+      target_compile_options(${_tgt} PRIVATE -Werror)
+    endif()
+  endforeach()
 endif()
