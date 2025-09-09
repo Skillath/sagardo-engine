@@ -7,9 +7,10 @@
 #include <iostream>
 #include <string>
 
-#include "Application.h"
-#include "ComponentUtils.h"
-#include "Scene.h"
+#include "Engine/include/SagardoEngine/Application.h"
+#include "Engine/include/SagardoEngine/ComponentUtils.h"
+#include "Engine/include/SagardoEngine/Scene.h"
+#include "Engine/include/SagardoEngine/Application.h"
 
 using namespace SagardoEngine;
 
@@ -63,6 +64,7 @@ Scene* SetupScene()
         .Y = 50.f,
         .Z = 50.f,
     });
+    
     light->AddComponent<LightComponent>(
     {
         .Red = 1.f,
@@ -71,7 +73,7 @@ Scene* SetupScene()
         .LightIntensity = 1.f,
     });
 
-    for (auto i = 0; i < 1; i++)
+    for (auto i = -3; i < 2; i++)
     {        
         const auto& modelGameObject = gameContextScene->NewGameObject(("3D Model{" + std::to_string(i) + "}").c_str());
         modelGameObject->AddComponent<FileLoaderComponent>(
@@ -83,21 +85,23 @@ Scene* SetupScene()
         
         modelGameObject->AddComponent<PositionComponent>(
         {
-            .X = 2,
+            .X = i * 1.f,
             .Y = 0.f,
-            .Z = i * 2.f,
+            .Z = 0.f,
         });
 
         modelGameObject->AddComponent<ScaleComponent>(
         {
-            .X = 0.5f,
-            .Y = 0.5f,
-            .Z = 0.5f,
+            .X = 0.25f,
+            .Y = 0.25f,
+            .Z = 0.25f,
         });
 
+        const auto speed = rand() % 60;
         modelGameObject->AddComponent<RotatorComponent>(
         {
-            .RotationSpeed = glm::vec3{0.f, 10.f, 0.f},
+            
+            .RotationSpeed = glm::vec3{0.f, speed, 0.f},
         });
     }
 

@@ -1,0 +1,8 @@
+#ifndef SAGARDOENGINE_LOGGER_H
+#define SAGARDOENGINE_LOGGER_H
+
+namespace SagardoEngine
+{
+
+}
+#endif //SAGARDOENGINE_LOGGER_H
