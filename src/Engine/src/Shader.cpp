@@ -1,8 +1,8 @@
-#include "../include/SagardoEngine/Shader.h"
+#include "SagardoEngine/Shader.h"
 
 #include <iostream>
 
-#include "../include/SagardoEngine/IO/File.h"
+#include "SagardoEngine/IO/File.h"
 
 namespace SagardoEngine
 {

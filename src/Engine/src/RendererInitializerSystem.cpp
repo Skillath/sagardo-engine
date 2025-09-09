@@ -2,7 +2,7 @@
 
 #include <print>
 #include "SagardoEngine/Components.h"
-#include "../ECS/include/SagardoEngine/ECS/Entity.h"
+#include "SagardoEngine/ECS/Entity.h"
 
 namespace SagardoEngine
 {

@@ -1,5 +1,4 @@
 
-
 #include "SagardoEngine/ECS/World.h"
 
 namespace SagardoEngine::Ecs

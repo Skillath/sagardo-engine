@@ -1,4 +1,4 @@
-#include "../include/SagardoEngine/TimeProvider.h"
+#include "SagardoEngine/TimeProvider.h"
 #include <GLFW/glfw3.h>
 
 namespace SagardoEngine

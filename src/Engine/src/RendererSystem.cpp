@@ -62,7 +62,7 @@ namespace SagardoEngine
                 const Shader shaderProgram(shader.ShaderProgramId);
                 shaderProgram.Use();
                 
-                const auto viewMatrix = *it.world().get<CameraMatricesComponent>();
+                const auto viewMatrix = it.world().get<CameraMatricesComponent>();
 
                 const auto t = glm::translate(GlmUtils::Identity, ComponentUtils::ToVector3(position));
                 const auto r = glm::mat4_cast(ComponentUtils::ToQuaternion(rotation)); 

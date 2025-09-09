@@ -1,4 +1,4 @@
-#include "../include/SagardoEngine/Debug/OpenGlDebug.h"
+#include "SagardoEngine/Debug/OpenGlDebug.h"
 
 #include <iostream>
 

@@ -1,7 +1,7 @@
 #ifndef SAGARDOENGINE_PHYSICS_PHYSICSENGINEINITIALIZERSYSTEM_H
 #define SAGARDOENGINE_PHYSICS_PHYSICSENGINEINITIALIZERSYSTEM_H
 
-#include "../ECS/include/SagardoEngine/ECS/ISystem.h"
+#include "SagardoEngine/ECS/ISystem.h"
 
 namespace SagardoEngine::Physics
 {

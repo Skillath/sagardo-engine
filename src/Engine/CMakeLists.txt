@@ -1,6 +1,4 @@
 # ECS as submodule (optional but recommended)
-add_subdirectory(ECS)
-
 set(ENGINE_TARGET SagardoEngine)
 
 add_library(${ENGINE_TARGET} STATIC
@@ -27,6 +25,8 @@ add_library(${ENGINE_TARGET} STATIC
         src/Model.cpp
         src/Debug/OpenGlDebug.cpp
         src/Window.cpp
+        src/ECS/Entity.cpp
+        src/ECS/World.cpp
         include/SagardoEngine/Components.h
         include/SagardoEngine/IUpdatable.h
         include/SagardoEngine/IStartable.h
@@ -47,6 +47,9 @@ add_library(${ENGINE_TARGET} STATIC
         include/SagardoEngine/Debug/OpenGlDebug.h
         include/SagardoEngine/Logger.h
         include/SagardoEngine/Window.h
+        include/SagardoEngine/ECS/Entity.h
+        include/SagardoEngine/ECS/ISystem.h
+        include/SagardoEngine/ECS/World.h
 )
 message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -62,10 +65,23 @@ target_compile_definitions(${ENGINE_TARGET} PRIVATE GLFW_INCLUDE_NONE)
 target_link_libraries(${ENGINE_TARGET}
         PUBLIC
         ${ECS_TARGET}
+        glad2
         PRIVATE
-        glad::glad
         stb_image
-        
+        flecs::flecs_static
 )
 
 set_target_properties(${ENGINE_TARGET} PROPERTIES FOLDER "Engine")
+
+
+if(NOT GLAD_CUSTOM_OUTPUT)
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin/debug/")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin/release/")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}/build/bin/MinSizeRel/")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/build/bin/RelWithDebInfo/")
+else()
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${GLAD_CUSTOM_OUTPUT_DEBUG}")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${GLAD_CUSTOM_OUTPUT_RELEASE}")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${GLAD_CUSTOM_OUTPUT_MINSIZEREL}")
+    set_target_properties(${ENGINE_TARGET} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${GLAD_CUSTOM_OUTPUT_RELWITHDEBINFO}")
+endif()

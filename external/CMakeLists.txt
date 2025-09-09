@@ -216,7 +216,7 @@ endif()
 
 # Create aliases that point to the REAL target (not an alias)
 add_library(glad2 ALIAS ${GLAD_SELECTED_TARGET})
-add_library(glad::glad ALIAS ${GLAD_SELECTED_TARGET})
+# add_library(glad::glad ALIAS ${GLAD_SELECTED_TARGET})
 
 # === stb_image implementation TU ============================================
 # Your TU lives at external/stb/stb_image_impl.cpp and includes "stb_image.h".

@@ -2,7 +2,7 @@
 #define SAGARDOENGINE_GAMEOBJECT_HPP
 
 #include <string>
-#include "../ECS/include/SagardoEngine/ECS/World.h"
+#include "ECS/World.h"
 
 namespace SagardoEngine
 {

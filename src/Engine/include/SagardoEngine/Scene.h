@@ -8,7 +8,7 @@
 #include "IStartable.h"
 #include "IStopable.h"
 #include "IUpdatable.h"
-#include "../ECS/include/SagardoEngine/ECS/World.h"
+#include "ECS/World.h"
 
 namespace SagardoEngine 
 {

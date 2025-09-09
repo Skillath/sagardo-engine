@@ -1,7 +1,7 @@
 #ifndef SAGARDOENGINE_MODELUNLOADERSYSTEM_H
 #define SAGARDOENGINE_MODELUNLOADERSYSTEM_H
 
-#include "../ECS/include/SagardoEngine/ECS/ISystem.h"
+#include "SagardoEngine/ECS/ISystem.h"
 
 namespace SagardoEngine
 {
